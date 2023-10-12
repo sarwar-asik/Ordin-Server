@@ -4,7 +4,9 @@ import { Router } from 'express';
 import { UsersController } from './Users.controller';
 import {UsersValidation } from './Users.validation';
 const router = Router();
-router.get('/')
+router.get('/',async(req,res)=>{
+    res.json({data:"yesssssssss"})
+})
 router.post('/')
 
 export const userRoutes = router;
