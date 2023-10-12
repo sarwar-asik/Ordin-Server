@@ -1,0 +1,15 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 14
+    },
+    "auditLog": "C:\\WEB\\NEXT_LEVEL_2\\assignment-9_FullStack\\backend-Ordain\\logs\\winston\\successes\\.5431e0238c3ff431950024cc694a79ac29058760-audit.json",
+    "files": [
+        {
+            "date": 1697088104568,
+            "name": "C:\\WEB\\NEXT_LEVEL_2\\assignment-9_FullStack\\backend-Ordain\\logs\\winston\\successes\\phu-2023-12-10-11-success.log",
+            "hash": "91766a7b73c63d6996f4f0de72448b2c37d05500a037db1af266cd4b8b225a70"
+        }
+    ],
+    "hashType": "sha256"
+}

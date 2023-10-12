@@ -1,0 +1,112 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model test {
+  id   String @id @default(uuid())
+  name String
+  user Int
+}
+
+// ! user model //
+
+model User {
+  id         String     @id @default(uuid())
+  name       String
+  password   String
+  email      String
+  role       Role       @default(user)
+  contact    String
+  img        String
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+  services   Service[]
+  usersCarts UserCart[]
+  bookings   Booking[]
+  Payment    Payment[]
+}
+
+enum Role {
+  user
+  admin
+  super_admin
+}
+
+//! Service Category 
+model Catergories {
+  id        String    @id @default(uuid())
+  title     String
+  img       String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  services  Service[]
+}
+
+//! Service model 
+model Service {
+  id          String      @id @default(uuid())
+  title       String
+  description String
+  price       String
+  address     String
+  contact     String
+  img         String
+  servicetime String?
+  categoryId  String
+  category    Catergories @relation(fields: [categoryId], references: [id])
+  publisherId String
+  publisher   User        @relation(fields: [publisherId], references: [id])
+
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  userCarts UserCart[]
+  bookings  Booking[]
+  Payment   Payment[]
+}
+
+model UserCart {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  serviceId String
+  service   Service  @relation(fields: [serviceId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Booking {
+  id            String         @id @default(uuid())
+  userId        String
+  user          User           @relation(fields: [userId], references: [id])
+  serviceId     String
+  service       Service        @relation(fields: [serviceId], references: [id])
+  totalService  Int            @default(1)
+  paymentStatus PaymentStatus?
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+}
+
+enum PaymentStatus {
+  pending
+  success
+}
+
+model Payment {
+  id            String         @id @default(uuid())
+  paymentDate   DateTime       @default(now())
+  paymentStatus PaymentStatus?
+  serviceId     String
+  service       Service        @relation(fields: [serviceId], references: [id])
+  userId        String
+  user          User           @relation(fields: [userId], references: [id])
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+}
