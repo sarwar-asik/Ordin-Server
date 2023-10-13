@@ -1,23 +1,23 @@
-import { Prisma, Service } from '@prisma/client';
+import { Prisma, UserCart } from '@prisma/client';
 import { paginationHelpers } from '../../../helpers/paginationHelper';
 import { IGenericResponse } from '../../../interfaces/common';
 import { IPaginationOptions } from '../../../interfaces/pagination';
 import prisma from '../../../shared/prisma';
-import { ServiceSearchableField } from './Service.constant';
-import { IServiceFilterRequest } from './Service.interface';
+import { ICartFilterRequest } from './Cart.interface';
+import { CartSearchableField } from './cart.constant';
 
-const insertDB = async (serviceData: Service): Promise<Service> => {
-  const result = await prisma.service.create({
-    data: serviceData,
+const insertDB = async (cartData: UserCart): Promise<UserCart> => {
+  const result = await prisma.userCart.create({
+    data: cartData,
   });
 
   return result;
 };
 
 const getAllDb = async (
-  filters: IServiceFilterRequest,
+  filters: ICartFilterRequest,
   options: IPaginationOptions
-): Promise<IGenericResponse<Service[]>> => {
+): Promise<IGenericResponse<UserCart[]>> => {
   // !for pagination
   const { page, limit, skip } = paginationHelpers.calculatePagination(options);
 
@@ -29,7 +29,7 @@ const getAllDb = async (
 
   if (searchTerm) {
     andConditions.push({
-      OR: ServiceSearchableField.map(field => ({
+      OR: CartSearchableField.map(field => ({
         [field]: {
           contains: searchTerm,
           mode: 'insensitive',
@@ -50,10 +50,10 @@ const getAllDb = async (
 
   // for andCondition for where
 
-  const whereCondition: Prisma.ServiceWhereInput =
+  const whereCondition: Prisma.UserCartWhereInput =
     andConditions.length > 0 ? { AND: andConditions } : {};
 
-  const result = await prisma.service.findMany({
+  const result = await prisma.userCart.findMany({
     where: whereCondition,
     skip,
     take: limit,
@@ -67,7 +67,7 @@ const getAllDb = async (
             createdAt: 'desc',
           },
   });
-  const total = await prisma.service.count();
+  const total = await prisma.userCart.count();
   return {
     meta: {
       total,
@@ -78,8 +78,8 @@ const getAllDb = async (
   };
 };
 
-const getSingleData = async (id: string): Promise<Service | null> => {
-  const result = await prisma.service.findUnique({
+const getSingleData = async (id: string): Promise<UserCart | null> => {
+  const result = await prisma.userCart.findUnique({
     where: {
       id,
     },
@@ -90,9 +90,9 @@ const getSingleData = async (id: string): Promise<Service | null> => {
 
 const updateOneInDB = async (
   id: string,
-  payload: Partial<Service>
-): Promise<Service> => {
-  const result = await prisma.service.update({
+  payload: Partial<UserCart>
+): Promise<UserCart> => {
+  const result = await prisma.userCart.update({
     where: {
       id,
     },
@@ -102,8 +102,8 @@ const updateOneInDB = async (
   return result;
 };
 
-const deleteByIdFromDB = async (id: string): Promise<Service> => {
-  const result = await prisma.service.delete({
+const deleteByIdFromDB = async (id: string): Promise<UserCart> => {
+  const result = await prisma.userCart.delete({
     where: {
       id,
     },
