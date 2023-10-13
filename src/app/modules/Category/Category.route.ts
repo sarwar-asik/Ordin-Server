@@ -31,4 +31,4 @@ router.post(
     CategoryController.deleteByIdFromDB
   );
 
-export const CategoryRoutes = router;
+export const categoryRoutes = router;

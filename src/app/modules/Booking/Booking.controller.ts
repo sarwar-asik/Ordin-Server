@@ -6,20 +6,21 @@ import sendResponse from "../../../shared/sendResponse";
 import httpStatus from "http-status";
 import catchAsync from "../../../shared/catchAsync";
 import pick from "../../../shared/pick";
-import { Categories } from "@prisma/client";
-import { CategoryServices } from "./Category.service";
-import { CategoryFilterableFields } from "./Category.constant";
+import { Booking } from "@prisma/client";
+import { BookingServices } from "./Booking.service";
+import { BookingFilterableFields } from "./Booking.constant";
+
 
 
 
 const insertDB  = catchAsync(async(req:Request,res:Response)=>{
     const data = req.body
-    const result = await CategoryServices.insertDB(data)
+    const result = await BookingServices.insertDB(data)
     
-    sendResponse<Categories>(res,{
+    sendResponse<Booking>(res,{
         statusCode:httpStatus.CREATED,
         success:true,
-        message:"Successfully created category",
+        message:"Successfully created Booking",
         data:result
     })
   
@@ -27,18 +28,18 @@ const insertDB  = catchAsync(async(req:Request,res:Response)=>{
 
 const getAllDb = catchAsync(async(req:Request,res:Response)=>{
     // console.log(req.query,'from getAll db controller');
-    const filters = pick(req.query,CategoryFilterableFields)
+    const filters = pick(req.query,BookingFilterableFields)
     // ServiceFilterableFields (use it in filters )
     const options = pick(req.query,['limit','page','sortBy','sortOrder'])
 
     
 
-    const result = await CategoryServices.getAllDb(filters,options)
+    const result = await BookingServices.getAllDb(filters,options)
 
-    sendResponse<Categories[]>(res,{
+    sendResponse<Booking[]>(res,{
         statusCode:httpStatus.OK,
         success:true,
-        message:"Successfully fetched Category Data",
+        message:"Successfully fetched Booking Data",
         meta:result.meta,
         data:result?.data,
     })
@@ -48,12 +49,12 @@ const getAllDb = catchAsync(async(req:Request,res:Response)=>{
 const getSingleDataById  = catchAsync(async(req:Request,res:Response)=>{
    const id = req.params.id;
 
-    const result = await CategoryServices.getSingleData(id)
+    const result = await BookingServices.getSingleData(id)
     
-    sendResponse<Categories>(res,{
+    sendResponse<Booking>(res,{
         statusCode:httpStatus.OK,
         success:true,
-        message:`Successfully get Category`,
+        message:`Successfully get Booking`,
         data:result
     })
   
@@ -61,23 +62,23 @@ const getSingleDataById  = catchAsync(async(req:Request,res:Response)=>{
 
 const updateOneInDB = catchAsync(async (req: Request, res: Response) => {
     const { id } = req.params;
-    const result = await CategoryServices.updateOneInDB(id, req.body);
+    const result = await BookingServices.updateOneInDB(id, req.body);
     sendResponse(res, {
         statusCode: httpStatus.OK,
         success: true,
-        message: 'Category updated successfully',
+        message: 'Booking updated successfully',
         data: result
     });
 });
 
 const deleteByIdFromDB = catchAsync(async (req: Request, res: Response) => {
     const { id } = req.params;
-    const result = await CategoryServices.deleteByIdFromDB(id);
+    const result = await BookingServices.deleteByIdFromDB(id);
     sendResponse(res, {
         statusCode: httpStatus.OK,
         success: true,
-        message: 'Category delete successfully',
+        message: 'Booking delete successfully',
         data: result
     });
 });
-export const CategoryController ={insertDB,getAllDb,getSingleDataById,updateOneInDB,deleteByIdFromDB}
+export const BookingController ={insertDB,getAllDb,getSingleDataById,updateOneInDB,deleteByIdFromDB}
