@@ -1,16 +1,15 @@
-
 import { z } from 'zod';
 const createCategory = z.object({
   body: z.object({
-    year: z.number({
-      required_error: 'year is Required (zod)',
-    }),
-    title: z.string({
-      required_error: 'title is Required (zod)',
-    })
+    title: z.string({ required_error: 'title is Required' }),
+    img: z.string({ required_error: 'img is Required' }),
+  }),
+});
+const updateCategory = z.object({
+  body: z.object({
+    title: z.string({ required_error: 'title is Required' }).optional(),
+    img: z.string({ required_error: 'img is Required' }).optional(),
   }),
 });
 
-export const CategoryValidation = { createCategory };
-
-
+export const CategoryValidation = { createCategory, updateCategory };
