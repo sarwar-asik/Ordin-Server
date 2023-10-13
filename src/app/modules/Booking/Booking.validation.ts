@@ -2,12 +2,9 @@
 import { z } from 'zod';
 const createBooking = z.object({
   body: z.object({
-    year: z.number({
-      required_error: 'year is Required (zod)',
-    }),
-    title: z.string({
-      required_error: 'title is Required (zod)',
-    })
+    userId: z.string({required_error: 'userId is Required'}),
+    serviceId: z.string({required_error: 'serviceId is Required'}),
+   
   }),
 });
 
