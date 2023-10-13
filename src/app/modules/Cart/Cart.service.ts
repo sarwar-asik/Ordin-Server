@@ -112,7 +112,7 @@ const deleteByIdFromDB = async (id: string): Promise<UserCart> => {
   return result;
 };
 
-export const ServiceServices = {
+export const CartServices = {
   insertDB,
   getAllDb,
   getSingleData,

@@ -74,7 +74,7 @@ const deleteByIdFromDB = catchAsync(async (req: Request, res: Response) => {
     sendResponse(res, {
         statusCode: httpStatus.OK,
         success: true,
-        message: 'Academic Semster delete successfully',
+        message: 'Cart delete successfully',
         data: result
     });
 });
