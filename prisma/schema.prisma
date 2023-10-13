@@ -22,7 +22,7 @@ model User {
   id         String     @id @default(uuid())
   name       String
   password   String
-  email      String  @unique
+  email      String     @unique
   role       Role       @default(user)
   contact    String
   img        String
@@ -59,7 +59,7 @@ model Service {
   address     String
   contact     String
   img         String
-  servicetime String?
+  serviceTime DateTime?
   categoryId  String
   category    Catergories @relation(fields: [categoryId], references: [id])
   publisherId String
@@ -70,6 +70,8 @@ model Service {
   userCarts UserCart[]
   bookings  Booking[]
   Payment   Payment[]
+
+  @@unique([title, price])
 }
 
 model UserCart {
@@ -89,13 +91,14 @@ model Booking {
   serviceId     String
   service       Service        @relation(fields: [serviceId], references: [id])
   totalService  Int            @default(1)
-  paymentStatus PaymentStatus?
+  paymentStatus PaymentStatus? @default(pending)
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
 }
 
 enum PaymentStatus {
   pending
+  reject
   success
 }
 

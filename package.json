@@ -31,10 +31,12 @@
     "typescript": "^5.0.4"
   },
   "dependencies": {
+    "@ant-design/cssinjs": "^1.17.2",
     "@prisma/client": "^5.2.0",
     "@types/bcrypt": "^5.0.0",
     "@types/cookie-parser": "^1.4.3",
     "@types/jsonwebtoken": "^9.0.2",
+    "antd": "^5.10.0",
     "bcrypt": "^5.1.0",
     "colors": "^1.4.0",
     "cookie-parser": "^1.4.6",
