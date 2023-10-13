@@ -3,13 +3,12 @@ export const ServiceSearchableField = [
   'contact',
   'price',
   'category',
-  'startMonth',
-  'endMonth',
+
 ];
 
 export const ServiceFilterableFields = [
   'searchTerm',
-  'code',
-  'startMonth',
-  'endMonth',
+  'contact',
+  'price',
+  'category',
 ];

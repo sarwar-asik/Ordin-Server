@@ -19,14 +19,15 @@ model test {
 // ! user model //
 
 model User {
-  id         String     @id @default(uuid())
-  name       String
-  password   String
-  email      String     @unique
-  role       Role       @default(user)
-  contact    String
-  img        String
-  createdAt  DateTime   @default(now())
+  id        String   @id @default(uuid())
+  name      String
+  password  String
+  email     String   @unique
+  role      Role     @default(user)
+  contact   String
+  img       String
+  createdAt DateTime @default(now())
+
   updatedAt  DateTime   @updatedAt
   services   Service[]
   usersCarts UserCart[]
@@ -41,7 +42,7 @@ enum Role {
 }
 
 //! Service Category 
-model Catergories {
+model Categories {
   id        String    @id @default(uuid())
   title     String
   img       String
@@ -52,7 +53,7 @@ model Catergories {
 
 //! Service model 
 model Service {
-  id          String      @id @default(uuid())
+  id          String     @id @default(uuid())
   title       String
   description String
   price       String
@@ -61,9 +62,9 @@ model Service {
   img         String
   serviceTime DateTime?
   categoryId  String
-  category    Catergories @relation(fields: [categoryId], references: [id])
+  category    Categories @relation(fields: [categoryId], references: [id])
   publisherId String
-  publisher   User        @relation(fields: [publisherId], references: [id])
+  publisher   User       @relation(fields: [publisherId], references: [id])
 
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt

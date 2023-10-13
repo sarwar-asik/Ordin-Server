@@ -30,4 +30,4 @@ router.post(
     CartController.deleteByIdFromDB
   );
 
-export const CartRoutes = router;
+export const cartRoutes = router;

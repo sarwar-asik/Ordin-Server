@@ -1,16 +1,12 @@
 export const CartSearchableField = [
-    'title',
-    'contact',
-    'price',
-    'category',
-    'startMonth',
-    'endMonth',
+    'userId',
+    'serviceId',
+   
   ];
   
   export const CartFilterableFields = [
     'searchTerm',
-    'code',
-    'startMonth',
-    'endMonth',
+    'userId',
+    'serviceId',
   ];
   
