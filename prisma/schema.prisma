@@ -62,6 +62,7 @@ model Service {
   img         String
   serviceTime DateTime?
   categoryId  String
+  status serviceStatus @default(upcoming)
   category    Categories @relation(fields: [categoryId], references: [id])
   publisherId String
   publisher   User       @relation(fields: [publisherId], references: [id])
@@ -73,6 +74,11 @@ model Service {
   Payment   Payment[]
 
   @@unique([title, price])
+}
+
+enum serviceStatus {
+  upcoming
+  available
 }
 
 model UserCart {
