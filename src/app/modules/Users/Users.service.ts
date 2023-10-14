@@ -8,5 +8,19 @@ const insertDB = async (data: User): Promise<User> => {
 
   return result;
 };
+const getProfile = async (authUser: {
+  id?: string;
+  email: string;
+  role: string;
+}): Promise<User | null> => {
+  const { email } = authUser;
+  const userResult = await prisma.user.findUnique({
+    where: {
+      email,
+    },
+  })
 
-export const UsersService = { insertDB };
+  return userResult;
+};
+
+export const UsersService = { insertDB, getProfile };

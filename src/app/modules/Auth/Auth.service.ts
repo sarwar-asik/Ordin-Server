@@ -33,7 +33,6 @@ const signUp = async (
   };
 };
 const authLogin = async (payload: {
-  userId: string;
   email?: string;
   password: string;
 }): Promise<any> => {
@@ -65,8 +64,9 @@ const authLogin = async (payload: {
 
   const token = jwtHelpers.createToken(
     {
-      email: isUserExist.email,
+      email,
       role: isUserExist.role,
+      id:isUserExist.id
     },
     config.jwt.secret as Secret,
     config.jwt.expires_in as string

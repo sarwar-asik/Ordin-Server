@@ -44,6 +44,11 @@
             "date": 1697308596055,
             "name": "C:\\WEB\\NEXT_LEVEL_2\\assignment-9_FullStack\\backend-Ordain\\logs\\winston\\successes\\phu-2023-15-10-00-success.log",
             "hash": "075084d8b4a82b22970a45c2ecc28555b5767126bab077703c61b82036b89a2c"
+        },
+        {
+            "date": 1697310766976,
+            "name": "C:\\WEB\\NEXT_LEVEL_2\\assignment-9_FullStack\\backend-Ordain\\logs\\winston\\successes\\phu-2023-15-10-01-success.log",
+            "hash": "92bf330750d2d1d7517a3b705b623fee8ba828a3b17e11158ee78075be1f61db"
         }
     ],
     "hashType": "sha256"
