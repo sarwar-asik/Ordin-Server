@@ -32,7 +32,8 @@ model User {
   services   Service[]
   usersCarts UserCart[]
   bookings   Booking[]
-  Payment    Payment[]
+  payments   Payment[]
+  review     Review[]
 }
 
 enum Role {
@@ -53,7 +54,7 @@ model Categories {
 
 //! Service model 
 model Service {
-  id          String     @id @default(uuid())
+  id          String        @id @default(uuid())
   title       String
   description String
   price       String
@@ -61,17 +62,18 @@ model Service {
   contact     String
   img         String
   serviceTime DateTime?
+  serviceDate DateTime?
+  status      serviceStatus @default(upcoming)
   categoryId  String
-  status serviceStatus @default(upcoming)
-  category    Categories @relation(fields: [categoryId], references: [id])
+  category    Categories    @relation(fields: [categoryId], references: [id])
   publisherId String
-  publisher   User       @relation(fields: [publisherId], references: [id])
-
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
-  userCarts UserCart[]
-  bookings  Booking[]
-  Payment   Payment[]
+  publisher   User          @relation(fields: [publisherId], references: [id])
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  userCarts   UserCart[]
+  bookings    Booking[]
+  payments    Payment[]
+  reviews     Review[]
 
   @@unique([title, price])
 }
@@ -79,6 +81,7 @@ model Service {
 enum serviceStatus {
   upcoming
   available
+  sold
 }
 
 model UserCart {
@@ -119,4 +122,16 @@ model Payment {
   user          User           @relation(fields: [userId], references: [id])
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
+}
+
+model Review {
+  id      String @id @default(uuid())
+  details String
+  rating  Int?
+  serviceId String
+  service   Service  @relation(fields: [serviceId], references: [id])
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

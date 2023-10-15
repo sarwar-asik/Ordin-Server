@@ -36,7 +36,22 @@ if(result){
    });
 }
 })
+const updateProfile = catchAsync(async(req:Request,res:Response)=>{
+  const authUser =( req.user) as any
+  const updateData = req.body;
+  
+  const result = await UsersService.updateProfile(authUser,updateData)
+
+if(result){
+   sendResponse<Partial<User>>(res, {
+     statusCode: httpStatus.OK,
+     success: true,
+     message: 'Successfully updated User profile',
+     data:result,
+   });
+}
+})
 
 
 
-export const UsersController = {insertDB,userProfile};
+export const UsersController = {insertDB,userProfile,updateProfile};

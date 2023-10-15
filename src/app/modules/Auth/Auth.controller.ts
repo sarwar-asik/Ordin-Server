@@ -18,11 +18,14 @@ const SignUp = catchAsync(async (req: Request, res: Response) => {
 
   if (result) {
     res.cookie(tokenName, result?.accessToken, cookieOptions);
-    sendResponse<User>(res, {
+  // eslint-disable-next-line no-unused-vars
+  const {password,...userData} = result.data
+
+    sendResponse<Partial<User>>(res, {
       statusCode: httpStatus.CREATED,
       success: true,
       message: 'Successfully SignUp',
-      data: result.data,
+      data: userData
     });
   }
 });
