@@ -45,8 +45,9 @@ enum Role {
 //! Service Category 
 model Categories {
   id        String    @id @default(uuid())
-  title     String
+  title     String  @unique
   img       String
+  details   String
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   services  Service[]
@@ -55,8 +56,8 @@ model Categories {
 //! Service model 
 model Service {
   id          String        @id @default(uuid())
-  title       String
-  description String
+  title       String       @unique
+  details String
   price       String
   address     String
   contact     String

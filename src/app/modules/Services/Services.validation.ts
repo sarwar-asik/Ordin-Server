@@ -17,7 +17,7 @@ const createServices = z.object({
 const updateService = z.object({
   body: z.object({
     title: z.string({ required_error: 'title is Required ' }).optional(),
-    description: z.string({ required_error: 'description is Required ' }).optional(),
+    details: z.string({ required_error: 'description is Required ' }).optional(),
     price: z.string({ required_error: 'price is Required ' }).optional(),
     address: z.string({ required_error: 'address is Required ' }).optional(),
     contact: z.string({ required_error: 'contact is Required ' }).optional(),

@@ -3,6 +3,7 @@ const createCategory = z.object({
   body: z.object({
     title: z.string({ required_error: 'title is Required' }),
     img: z.string({ required_error: 'img is Required' }),
+    // details: z.string({ required_error: 'details is Required' }),
   }),
 });
 const updateCategory = z.object({
