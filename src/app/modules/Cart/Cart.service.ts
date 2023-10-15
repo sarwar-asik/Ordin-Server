@@ -1,80 +1,44 @@
-import { Prisma, UserCart } from '@prisma/client';
-import { paginationHelpers } from '../../../helpers/paginationHelper';
-import { IGenericResponse } from '../../../interfaces/common';
-import { IPaginationOptions } from '../../../interfaces/pagination';
+import { UserCart } from '@prisma/client';
+
 import prisma from '../../../shared/prisma';
-import { ICartFilterRequest } from './Cart.interface';
-import { CartSearchableField } from './cart.constant';
 
 const insertDB = async (cartData: UserCart): Promise<UserCart> => {
+  console.log(cartData);
+
   const result = await prisma.userCart.create({
     data: cartData,
+    include: {
+      service: true,
+      user: true,
+    },
   });
+  console.log(result, 'ressssssss');
 
   return result;
 };
 
-const getAllDb = async (
-  filters: ICartFilterRequest,
-  options: IPaginationOptions
-): Promise<IGenericResponse<UserCart[]>> => {
+const getAllDb = async (authUser: any): Promise<any> => {
   // !for pagination
-  const { page, limit, skip } = paginationHelpers.calculatePagination(options);
 
-  //   ! for filters
+  // console.log(authUser);
 
-  const { searchTerm, ...filtersData } = filters;
-
-  const andConditions = [];
-
-  if (searchTerm) {
-    andConditions.push({
-      OR: CartSearchableField.map(field => ({
-        [field]: {
-          contains: searchTerm,
-          mode: 'insensitive',
-        },
-      })),
-    });
-  }
-
-  if (Object.keys(filtersData).length > 0) {
-    andConditions.push({
-      AND: Object.keys(filtersData).map(key => ({
-        [key]: {
-          equals: (filtersData as any)[key],
-        },
-      })),
-    });
-  }
-
-  // for andCondition for where
-
-  const whereCondition: Prisma.UserCartWhereInput =
-    andConditions.length > 0 ? { AND: andConditions } : {};
-
-  const result = await prisma.userCart.findMany({
-    where: whereCondition,
-    skip,
-    take: limit,
-
-    orderBy:
-      options.sortBy && options.sortOrder
-        ? {
-            [options.sortBy]: options.sortOrder,
-          }
-        : {
-            createdAt: 'desc',
-          },
-  });
-  const total = await prisma.userCart.count();
-  return {
-    meta: {
-      total,
-      page,
-      limit,
+  const getUserCart = await prisma.userCart.findMany({
+    where: {
+      userId: authUser?.id,
     },
-    data: result,
+    include: {
+      service: true,
+      user: true,
+    },
+  });
+
+  const countData = await prisma.userCart.count();
+
+  return {
+    data: getUserCart,
+    meta: {
+      total: countData,
+    },
   };
 };
 

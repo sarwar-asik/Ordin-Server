@@ -2,7 +2,7 @@ import { z } from 'zod';
 const createServices = z.object({
   body: z.object({
     title: z.string({ required_error: 'title is Required ' }),
-    description: z.string({ required_error: 'description is Required ' }),
+    details: z.string({ required_error: 'description is Required ' }),
     price: z.string({ required_error: 'price is Required ' }),
     address: z.string({ required_error: 'address is Required ' }),
     contact: z.string({ required_error: 'contact is Required ' }),

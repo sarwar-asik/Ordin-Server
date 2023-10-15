@@ -3,6 +3,7 @@ export const ServiceSearchableField = [
   'contact',
   'price',
   'category',
+  'status'
 
 ];
 
@@ -11,4 +12,5 @@ export const ServiceFilterableFields = [
   'contact',
   'price',
   'category',
+  'status'
 ];

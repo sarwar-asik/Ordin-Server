@@ -6,7 +6,22 @@ import prisma from '../../../shared/prisma';
 import { ServiceSearchableField } from './Service.constant';
 import { IServiceFilterRequest } from './Service.interface';
 
-const insertDB = async (serviceData: Service): Promise<Service> => {
+const insertDB = async (serviceData: Service | any ): Promise<Service> => {
+  if (serviceData.serviceDate) {
+    // Parse serviceDate from string to Date
+    serviceData.serviceDate = new Date(serviceData.serviceDate);
+  }
+
+  if (serviceData.serviceTime) {
+    // Assuming the time is in HH:mm format
+
+    
+    const [hours, minutes] = serviceData.serviceTime.split(':')  ; 
+    const serviceTime = new Date();
+    serviceTime.setHours(parseInt(hours, 10), parseInt(minutes, 10));
+    serviceData.serviceTime = serviceTime;
+  }
+
   const result = await prisma.service.create({
     data: serviceData,
   });

@@ -13,6 +13,8 @@ import { ServiceSearchableField } from "./Service.constant";
 const insertDB  = catchAsync(async(req:Request,res:Response)=>{
     const data = req.body
     const result = await ServiceServices.insertDB(data)
+
+    console.log("service created");
     
     sendResponse<Service>(res,{
         statusCode:httpStatus.CREATED,
