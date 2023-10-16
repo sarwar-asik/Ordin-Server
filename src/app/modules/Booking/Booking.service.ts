@@ -1,11 +1,10 @@
-import { Booking, Prisma} from '@prisma/client';
+import { Booking, Prisma } from '@prisma/client';
 import { paginationHelpers } from '../../../helpers/paginationHelper';
 import { IGenericResponse } from '../../../interfaces/common';
 import { IPaginationOptions } from '../../../interfaces/pagination';
 import prisma from '../../../shared/prisma';
-import { IBookingFilterRequest } from './Booking.interface';
 import { BookingSearchableField } from './Booking.constant';
-
+import { IBookingFilterRequest } from './Booking.interface';
 
 const insertDB = async (cartData: Booking): Promise<Booking> => {
   const result = await prisma.booking.create({
@@ -79,6 +78,40 @@ const getAllDb = async (
   };
 };
 
+const getUserBooking = async (
+  authUser: any,
+  serviceId: string
+): Promise<Booking | null> => {
+  const result = await prisma.booking.findFirst({
+    where: {
+      userId: authUser?.id,
+      serviceId,
+    },
+  });
+  return result;
+};
+
+const getUserAllBooking = async (
+  authUser: any
+): Promise<{ data: Booking[]; meta: any} | null> => {
+  const result = await prisma.booking.findMany({
+    where: {
+      userId: authUser?.id,
+    },
+    include: {
+      service: true,
+      user: true,
+    },
+  });
+  const total = await prisma.booking.count();
+  return {
+    meta: {
+      total,
+    },
+    data: result
+  };
+};
+
 const getSingleData = async (id: string): Promise<Booking | null> => {
   const result = await prisma.booking.findUnique({
     where: {
@@ -119,4 +152,6 @@ export const BookingServices = {
   getSingleData,
   updateOneInDB,
   deleteByIdFromDB,
+  getUserBooking,
+  getUserAllBooking,
 };

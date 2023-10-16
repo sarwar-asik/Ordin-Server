@@ -1,3 +1,9 @@
+// export type IServiceFilterRequest = {
+//     searchTerm?:string
+// }
+
+
 export type IServiceFilterRequest = {
-    searchTerm?:string
+    searchTerm?: string | undefined;
+    categoryId?: string | undefined;
 }

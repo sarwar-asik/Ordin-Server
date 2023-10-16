@@ -39,6 +39,8 @@ if(result){
 const updateProfile = catchAsync(async(req:Request,res:Response)=>{
   const authUser =( req.user) as any
   const updateData = req.body;
+  console.log(updateData,"update Profile data");
+  
   
   const result = await UsersService.updateProfile(authUser,updateData)
 

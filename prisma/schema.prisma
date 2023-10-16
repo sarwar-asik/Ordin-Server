@@ -107,6 +107,8 @@ model Booking {
   paymentStatus PaymentStatus? @default(pending)
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
+
+  @@unique([userId,serviceId])
 }
 
 enum PaymentStatus {

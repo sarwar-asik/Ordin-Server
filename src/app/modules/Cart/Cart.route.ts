@@ -15,7 +15,9 @@ router.post(
     CartController.insertDB
   );
   
-  router.get('/',auth(ENUM_USER_ROLE.USER), CartController.getAllDb);
+  router.get('/',
+  auth(ENUM_USER_ROLE.USER), 
+  CartController.getAllDb);
   router.get('/:id', CartController.getSingleDataById);
   
   router.patch(
@@ -26,7 +28,7 @@ router.post(
   
   router.delete(
     '/:id',
-    auth(ENUM_USER_ROLE.SUPER_ADMIN, ENUM_USER_ROLE.ADMIN),
+    auth(ENUM_USER_ROLE.USER),
     CartController.deleteByIdFromDB
   );
 

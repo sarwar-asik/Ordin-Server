@@ -59,6 +59,36 @@ const getSingleDataById  = catchAsync(async(req:Request,res:Response)=>{
     })
   
 })
+const getUserDataBooking  = catchAsync(async(req:Request,res:Response)=>{
+const authUser =( req.user) as any
+   const serviceId = req.params.serviceId;
+
+    const result = await BookingServices.getUserBooking(authUser,serviceId)
+    
+    sendResponse<any>(res,{
+        statusCode:httpStatus.OK,
+        success:true,
+        message:`Successfully get Your Booking`,
+        data:result
+    })
+  
+})
+
+const getUserAllBooking  = catchAsync(async(req:Request,res:Response)=>{
+    const authUser =( req.user) as any
+       
+    
+        const result = await BookingServices.getUserAllBooking(authUser)
+        
+        sendResponse<any>(res,{
+            statusCode:httpStatus.OK,
+            success:true,
+            message:`Successfully get Your All Bookings`,
+            data:result?.data,
+            meta:result?.meta
+        })
+      
+    })
 
 const updateOneInDB = catchAsync(async (req: Request, res: Response) => {
     const { id } = req.params;
@@ -81,4 +111,4 @@ const deleteByIdFromDB = catchAsync(async (req: Request, res: Response) => {
         data: result
     });
 });
-export const BookingController ={insertDB,getAllDb,getSingleDataById,updateOneInDB,deleteByIdFromDB}
+export const BookingController ={insertDB,getAllDb,getSingleDataById,updateOneInDB,deleteByIdFromDB,getUserDataBooking,getUserAllBooking}
