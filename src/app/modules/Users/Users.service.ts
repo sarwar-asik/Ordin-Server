@@ -1,12 +1,12 @@
 import { Prisma, User } from '@prisma/client';
 import httpStatus from 'http-status';
 import ApiError from '../../../errors/ApiError';
+import { paginationHelpers } from '../../../helpers/paginationHelper';
+import { IGenericResponse } from '../../../interfaces/common';
+import { IPaginationOptions } from '../../../interfaces/pagination';
 import prisma from '../../../shared/prisma';
 import { IUserFilterRequest } from './User.interface';
-import { IPaginationOptions } from '../../../interfaces/pagination';
-import { IGenericResponse } from '../../../interfaces/common';
-import { paginationHelpers } from '../../../helpers/paginationHelper';
-import { UserSearchableField } from './user.constant';
+import { UserSearchableField } from './UserConstant';
 
 const insertDB = async (data: User): Promise<User> => {
   const result = await prisma.user.create({
@@ -125,4 +125,46 @@ const updateProfile = async (
   return userResult;
 };
 
-export const UsersService = { insertDB, getProfile, updateProfile,getAllUsers };
+const deleteByIdFromDB = async (id: string): Promise<User> => {
+  const result = await prisma.user.delete({
+    where: {
+      id,
+    },
+  });
+
+  return result;
+};
+
+const getSingleData = async (id: string): Promise<User | null> => {
+  const result = await prisma.user.findUnique({
+    where: {
+      id,
+    },
+  });
+
+  return result;
+};
+
+const updateUser = async (
+  id: string,
+  updateData: Partial<User>
+): Promise<User | null> => {
+  const userResult = await prisma.user.update({
+    where: {
+      id,
+    },
+    data: updateData,
+  });
+
+  return userResult;
+};
+
+export const UsersService = {
+  insertDB,
+  getProfile,
+  updateProfile,
+  getAllUsers,
+  deleteByIdFromDB,
+  getSingleData,
+  updateUser,
+};
