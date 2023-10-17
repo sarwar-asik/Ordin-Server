@@ -1,4 +1,4 @@
-import { Prisma, User } from '@prisma/client';
+import { Prisma, Role, User } from '@prisma/client';
 import httpStatus from 'http-status';
 import ApiError from '../../../errors/ApiError';
 import { paginationHelpers } from '../../../helpers/paginationHelper';
@@ -149,6 +149,14 @@ const updateUser = async (
   id: string,
   updateData: Partial<User>
 ): Promise<User | null> => {
+  const isSuperAdmin = await getSingleData(id) as any;
+  
+  console.log("🚀 ~ file: Users.service.ts:153 ~ isSuperAdmin:", isSuperAdmin)
+
+  if(isSuperAdmin.role === Role.super_admin){
+    throw new ApiError(httpStatus.EXPECTATION_FAILED,"You can not update super admin")
+  }
+
   const userResult = await prisma.user.update({
     where: {
       id,
