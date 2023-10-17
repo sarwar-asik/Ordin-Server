@@ -1,15 +1,19 @@
-import {  Prisma, Review } from '@prisma/client';
+import { Prisma, Review } from '@prisma/client';
 import { paginationHelpers } from '../../../helpers/paginationHelper';
 import { IGenericResponse } from '../../../interfaces/common';
 import { IPaginationOptions } from '../../../interfaces/pagination';
 import prisma from '../../../shared/prisma';
-import { IReviewFilterRequest } from './Review.interface';
 import { ReviewSearchableField } from './Review.constant';
-
+import { IReviewFilterRequest } from './Review.interface';
 
 const insertDB = async (cartData: Review): Promise<Review> => {
+  console.log(cartData);
   const result = await prisma.review.create({
     data: cartData,
+    include: {
+      user: true,
+      service: true,
+    },
   });
 
   return result;
@@ -55,6 +59,10 @@ const getAllDb = async (
     andConditions.length > 0 ? { AND: andConditions } : {};
 
   const result = await prisma.review.findMany({
+    include: {
+      user: true,
+      service: true,
+    },
     where: whereCondition,
     skip,
     take: limit,
@@ -88,13 +96,17 @@ const getUserReviewByService = async (
       userId: authUser?.id,
       serviceId,
     },
+    include: {
+      user: true,
+      service: true,
+    },
   });
   return result;
 };
 
 const getUserAllReview = async (
   authUser: any
-): Promise<{ data: Review[]; meta: any} | null> => {
+): Promise<{ data: Review[]; meta: any } | null> => {
   const result = await prisma.review.findMany({
     where: {
       userId: authUser?.id,
@@ -109,7 +121,7 @@ const getUserAllReview = async (
     meta: {
       total,
     },
-    data: result
+    data: result,
   };
 };
 
@@ -117,6 +129,10 @@ const getSingleData = async (id: string): Promise<Review | null> => {
   const result = await prisma.review.findUnique({
     where: {
       id,
+    },
+    include: {
+      user: true,
+      service: true,
     },
   });
 
@@ -132,6 +148,10 @@ const updateOneInDB = async (
       id,
     },
     data: payload,
+    include: {
+      user: true,
+      service: true,
+    },
   });
 
   return result;
@@ -141,6 +161,10 @@ const deleteByIdFromDB = async (id: string): Promise<Review> => {
   const result = await prisma.review.delete({
     where: {
       id,
+    },
+    include: {
+      user: true,
+      service: true,
     },
   });
 
@@ -153,6 +177,6 @@ export const ReviewServices = {
   getSingleData,
   updateOneInDB,
   deleteByIdFromDB,
-   getUserReviewByService,
+  getUserReviewByService,
   getUserAllReview,
 };

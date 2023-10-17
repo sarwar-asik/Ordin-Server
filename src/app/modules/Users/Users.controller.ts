@@ -5,6 +5,8 @@ import sendResponse from "../../../shared/sendResponse";
 import httpStatus from "http-status";
 import { UsersService } from "./Users.service";
 import { User } from "@prisma/client";
+import { UserFilterableFields } from "./user.constant";
+import pick from "../../../shared/pick";
 
 const insertDB = catchAsync(async (req: Request, res: Response) => {
   const data = req.body;
@@ -36,6 +38,8 @@ if(result){
    });
 }
 })
+
+
 const updateProfile = catchAsync(async(req:Request,res:Response)=>{
   const authUser =( req.user) as any
   const updateData = req.body;
@@ -55,5 +59,24 @@ if(result){
 })
 
 
+const getAllUsers = catchAsync(async(req:Request,res:Response)=>{
+  // console.log(req.query,'from getAll db controller');
+  const filters = pick(req.query,UserFilterableFields)
+  // ServiceFilterableFields (use it in filters )
+  const options = pick(req.query,['limit','page','sortBy','sortOrder'])
 
-export const UsersController = {insertDB,userProfile,updateProfile};
+  
+
+  const result = await UsersService.getAllUsers(filters,options)
+
+  sendResponse<User[]>(res,{
+      statusCode:httpStatus.OK,
+      success:true,
+      message:"Successfully fetched Users Data",
+      meta:result.meta,
+      data:result?.data,
+  })
+})
+
+
+export const UsersController = {insertDB,userProfile,updateProfile,getAllUsers};

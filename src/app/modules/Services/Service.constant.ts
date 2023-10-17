@@ -20,7 +20,7 @@ export const ServiceSearchableField = [
 
 
 
-export const academicDepartmentSearchableFields: string[] = ['title'];
+
 
 export const serviceRelationalFields: string[] = ['categoryId'];
 export const serviceRelationalFieldsMapper: { [key: string]: string } = {
