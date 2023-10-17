@@ -45,7 +45,7 @@ enum Role {
 //! Service Category 
 model Categories {
   id        String    @id @default(uuid())
-  title     String  @unique
+  title     String    @unique
   img       String
   details   String
   createdAt DateTime  @default(now())
@@ -56,8 +56,8 @@ model Categories {
 //! Service model 
 model Service {
   id          String        @id @default(uuid())
-  title       String       @unique
-  details String
+  title       String        @unique
+  details     String
   price       String
   address     String
   contact     String
@@ -94,7 +94,7 @@ model UserCart {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@unique([userId,serviceId])
+  @@unique([userId, serviceId])
 }
 
 model Booking {
@@ -108,7 +108,7 @@ model Booking {
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
 
-  @@unique([userId,serviceId])
+  @@unique([userId, serviceId])
 }
 
 enum PaymentStatus {
@@ -131,8 +131,10 @@ model Payment {
 
 model Review {
   id      String @id @default(uuid())
-  details String
-  rating  Int?
+  reviews String?
+  rating  Int
+  suggestions String?
+  comments  String?
   serviceId String
   service   Service  @relation(fields: [serviceId], references: [id])
   userId    String
