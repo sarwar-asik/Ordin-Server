@@ -4,7 +4,7 @@ const createBlogs = z.object({
     title: z.string({ required_error: 'title is Required ' }),
     content: z.string({ required_error: 'content is Required ' }),
     author: z.string({ required_error: 'author is Required ' }),
-    img: z.string({ required_error: 'img is Required ' }),
+    img: z.string({ required_error: 'img is Required '}),
     portal: z.string({ required_error: 'portal is Required ' }),
     publishedTime: z.string({ required_error: 'publishedTime is Required ' }),
     postBy: z.string({ required_error: 'postBy is Required ' }),
