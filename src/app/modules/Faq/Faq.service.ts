@@ -1,15 +1,13 @@
-import { Prisma, } from '@prisma/client';
+import { FAQ, Prisma } from '@prisma/client';
 import { paginationHelpers } from '../../../helpers/paginationHelper';
 import { IGenericResponse } from '../../../interfaces/common';
 import { IPaginationOptions } from '../../../interfaces/pagination';
 import prisma from '../../../shared/prisma';
-import { IFAQFilterRequest } from './Faq.interface';
 import { FAQSearchableField } from './Faq.contstant';
-
-
+import { IFAQFilterRequest } from './Faq.interface';
 
 const insertDB = async (FAQData: FAQ): Promise<FAQ> => {
-  const result = await prisma.FAQ.create({
+  const result = await prisma.fAQ.create({
     data: FAQData,
   });
   return result;
@@ -54,9 +52,9 @@ const getAllDb = async (
   const whereCondition: Prisma.FAQWhereInput =
     andConditions.length > 0 ? { AND: andConditions } : {};
 
-  const result = await prisma.FAQ.findMany({
-    include:{
-      user:true
+  const result = await prisma.fAQ.findMany({
+    include: {
+      user: true,
     },
     where: whereCondition,
     skip,
@@ -71,7 +69,7 @@ const getAllDb = async (
             createdAt: 'desc',
           },
   });
-  const total = await prisma.FAQ.count();
+  const total = await prisma.fAQ.count();
   return {
     meta: {
       total,
@@ -83,7 +81,7 @@ const getAllDb = async (
 };
 
 const getSingleData = async (id: string): Promise<FAQ | null> => {
-  const result = await prisma.FAQ.findUnique({
+  const result = await prisma.fAQ.findUnique({
     where: {
       id,
     },
@@ -96,7 +94,7 @@ const updateOneInDB = async (
   id: string,
   payload: Partial<FAQ>
 ): Promise<FAQ> => {
-  const result = await prisma.FAQ.update({
+  const result = await prisma.fAQ.update({
     where: {
       id,
     },
@@ -107,7 +105,7 @@ const updateOneInDB = async (
 };
 
 const deleteByIdFromDB = async (id: string): Promise<FAQ> => {
-  const result = await prisma.FAQ.delete({
+  const result = await prisma.fAQ.delete({
     where: {
       id,
     },

@@ -8,6 +8,7 @@ import catchAsync from "../../../shared/catchAsync";
 import pick from "../../../shared/pick";
 import { FAQServices } from "./Faq.service";
 import { FAQFilterableFields } from "./Faq.contstant";
+import { FAQ } from "@prisma/client";
 
 
 
