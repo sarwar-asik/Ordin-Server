@@ -7,14 +7,14 @@ import sendResponse from '../../../shared/sendResponse';
 import { UserFilterableFields } from './UserConstant';
 import { UsersService } from './Users.service';
 
-const insertDB = catchAsync(async (req: Request, res: Response) => {
+const createAdmin = catchAsync(async (req: Request, res: Response) => {
   const data = req.body;
-  const result = await UsersService.insertDB(data);
+  const result = await UsersService.createAdmin(data);
 
   sendResponse<User>(res, {
     statusCode: httpStatus.CREATED,
     success: true,
-    message: 'Successfully Users',
+    message: 'Successfully created admin',
     data: result,
   });
 });
@@ -111,7 +111,7 @@ const updateUser = catchAsync(async (req: Request, res: Response) => {
   }
 });
 export const UsersController = {
-  insertDB,
+  createAdmin,
   userProfile,
   updateProfile,
   getAllUsers,

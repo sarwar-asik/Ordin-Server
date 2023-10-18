@@ -35,6 +35,7 @@ model User {
   payments   Payment[]
   review     Review[]
   blogs      Blog[]
+  FAQ        FAQ[]
 }
 
 enum Role {
@@ -145,15 +146,25 @@ model Review {
 }
 
 model Blog {
-  id            String      @id @default(uuid())
+  id            String   @id @default(uuid())
   title         String
   content       String
   author        String
-  img        String
+  img           String
   portal        String
   publishedTime DateTime
   postBy        String
   user          User     @relation(fields: [postBy], references: [id])
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
+}
+
+model FAQ {
+  id        Int      @id @default(autoincrement())
+  question  String
+  answer    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
 }

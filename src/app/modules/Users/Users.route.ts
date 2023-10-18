@@ -32,6 +32,12 @@ router.put(
   UsersController.updateUser
 );
 
+router.post(
+  '/create-admin',
+  auth(ENUM_USER_ROLE.SUPER_ADMIN),
+  validateRequest(UsersValidation.createAdmin),
+  UsersController.createAdmin
+);
 
 router.delete(
   '/:id',

@@ -8,7 +8,7 @@ import prisma from '../../../shared/prisma';
 import { IUserFilterRequest } from './User.interface';
 import { UserSearchableField } from './UserConstant';
 
-const insertDB = async (data: User): Promise<User> => {
+const createAdmin = async (data: User): Promise<User> => {
   const result = await prisma.user.create({
     data,
   });
@@ -169,7 +169,7 @@ const updateUser = async (
 };
 
 export const UsersService = {
-  insertDB,
+  createAdmin,
   getProfile,
   updateProfile,
   getAllUsers,

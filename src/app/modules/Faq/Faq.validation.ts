@@ -1,16 +1,17 @@
-
 import { z } from 'zod';
-const createFaq = z.object({
+const createFAQ = z.object({
   body: z.object({
-    year: z.number({
-      required_error: 'year is Required (zod)',
-    }),
-    title: z.string({
-      required_error: 'title is Required (zod)',
-    })
+    question: z.string({ required_error: 'question is Required ' }),
+    answer: z.string({ required_error: 'answer is Required ' }),
+    userId: z.string({ required_error: 'userId is Required ' })
   }),
 });
+const updateFAQ = z.object({
+  body: z.object({
+    question: z.string({ required_error: 'question is Required ' }).optional(),
+    answer: z.string({ required_error: 'answer is Required ' }).optional(),
+    userId: z.string({ required_error: 'userId is Required ' })
+  }).optional(),
+});
 
-export const FaqValidation = { createFaq };
-
-
+export const FAQValidation = { createFAQ,updateFAQ };
