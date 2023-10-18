@@ -1,11 +1,12 @@
 import express from 'express';
 import { authRoutes } from '../modules/Auth/Auth.route';
-import { userRoutes } from '../modules/Users/Users.route';
-import { servicesRoutes } from '../modules/Services/Services.route';
+import { blogsRoutes } from '../modules/Blogs/Blogs.route';
+import { BookingRoutes } from '../modules/Booking/Booking.route';
 import { cartRoutes } from '../modules/Cart/Cart.route';
 import { categoryRoutes } from '../modules/Category/Category.route';
-import { BookingRoutes } from '../modules/Booking/Booking.route';
 import { reviewRoutes } from '../modules/Review/Review.route';
+import { servicesRoutes } from '../modules/Services/Services.route';
+import { userRoutes } from '../modules/Users/Users.route';
 
 const router = express.Router();
 
@@ -29,15 +30,19 @@ const moduleRoutes = [
   },
   {
     path: '/cart',
-    routes:cartRoutes,
+    routes: cartRoutes,
   },
   {
     path: '/booking',
-    routes:BookingRoutes,
+    routes: BookingRoutes,
   },
   {
     path: '/reviews',
-    routes:reviewRoutes,
+    routes: reviewRoutes,
+  },
+  {
+    path: '/blogs',
+    routes: blogsRoutes,
   },
 ];
 

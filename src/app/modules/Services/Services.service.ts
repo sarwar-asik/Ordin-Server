@@ -27,6 +27,12 @@ const insertDB = async (serviceData: Service | any): Promise<Service> => {
 
   const result = await prisma.service.create({
     data: serviceData,
+    include: {
+      reviews: true,
+      category: true,
+      publisher: true,
+      bookings: true,
+    },
   });
 
   return result;
@@ -154,7 +160,14 @@ const getAllDb = async (
 
   const result = await prisma.service.findMany({
     include: {
+      reviews: {
+        include: {
+          user: true,
+        },
+      },
       category: true,
+      publisher: true,
+      bookings: true,
     },
     where: whereConditions,
     skip,
@@ -185,6 +198,20 @@ const getSingleData = async (id: string): Promise<Service | null> => {
     where: {
       id,
     },
+    include: {
+      reviews: {
+        include: {
+          user: true,
+        },
+      },
+      category: true,
+      publisher: true,
+      bookings: {
+        include:{
+          user:true
+        }
+      },
+    },
   });
 
   return result;
@@ -192,7 +219,7 @@ const getSingleData = async (id: string): Promise<Service | null> => {
 
 const updateOneInDB = async (
   id: string,
-  payload: Partial<Service| any>
+  payload: Partial<Service | any>
 ): Promise<Service> => {
   console.log(id, 'annnnnd ', payload);
 
@@ -214,6 +241,20 @@ const updateOneInDB = async (
       id,
     },
     data: payload,
+    include: {
+      reviews: {
+        include: {
+          user: true,
+        },
+      },
+      category: true,
+      publisher: true,
+      bookings: {
+        include:{
+          user:true
+        }
+      },
+    },
   });
 
   return result;
@@ -223,6 +264,20 @@ const deleteByIdFromDB = async (id: string): Promise<Service> => {
   const result = await prisma.service.delete({
     where: {
       id,
+    },
+    include: {
+      reviews: {
+        include: {
+          user: true,
+        },
+      },
+      category: true,
+      publisher: true,
+      bookings: {
+        include:{
+          user:true
+        }
+      },
     },
   });
 

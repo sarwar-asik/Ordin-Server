@@ -34,6 +34,7 @@ model User {
   bookings   Booking[]
   payments   Payment[]
   review     Review[]
+  blogs      Blog[]
 }
 
 enum Role {
@@ -141,4 +142,18 @@ model Review {
   user        User     @relation(fields: [userId], references: [id])
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+}
+
+model Blog {
+  id            String      @id @default(uuid())
+  title         String
+  content       String
+  author        String
+  img        String
+  portal        String
+  publishedTime DateTime
+  postBy        String
+  user          User     @relation(fields: [postBy], references: [id])
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 }

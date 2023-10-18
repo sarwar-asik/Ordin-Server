@@ -149,11 +149,12 @@ const updateUser = async (
   id: string,
   updateData: Partial<User>
 ): Promise<User | null> => {
+  console.log(id,"and",updateData);
   const isSuperAdmin = await getSingleData(id) as any;
-  
+
   console.log("🚀 ~ file: Users.service.ts:153 ~ isSuperAdmin:", isSuperAdmin)
 
-  if(isSuperAdmin.role === Role.super_admin){
+  if(isSuperAdmin&&isSuperAdmin?.role === Role.super_admin){
     throw new ApiError(httpStatus.EXPECTATION_FAILED,"You can not update super admin")
   }
 

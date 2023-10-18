@@ -1,23 +1,23 @@
-import { Booking, Prisma } from '@prisma/client';
+import { Blog, Prisma, } from '@prisma/client';
 import { paginationHelpers } from '../../../helpers/paginationHelper';
 import { IGenericResponse } from '../../../interfaces/common';
 import { IPaginationOptions } from '../../../interfaces/pagination';
 import prisma from '../../../shared/prisma';
-import { BookingSearchableField } from './Booking.constant';
-import { IBookingFilterRequest } from './Booking.interface';
+import { IBlogsFilterRequest } from './Blogs.interface';
+import { BlogsSearchableField } from './Blogs.constant';
 
-const insertDB = async (cartData: Booking): Promise<Booking> => {
-  const result = await prisma.booking.create({
-    data: cartData,
+
+const insertDB = async (blogsData: Blog): Promise<Blog> => {
+  const result = await prisma.blog.create({
+    data: blogsData,
   });
-
   return result;
 };
 
 const getAllDb = async (
-  filters: IBookingFilterRequest,
+  filters: IBlogsFilterRequest,
   options: IPaginationOptions
-): Promise<IGenericResponse<Booking[]>> => {
+): Promise<IGenericResponse<Blog[]>> => {
   // !for pagination
   const { page, limit, skip } = paginationHelpers.calculatePagination(options);
 
@@ -29,7 +29,7 @@ const getAllDb = async (
 
   if (searchTerm) {
     andConditions.push({
-      OR: BookingSearchableField.map(field => ({
+      OR: BlogsSearchableField.map(field => ({
         [field]: {
           contains: searchTerm,
           mode: 'insensitive',
@@ -50,13 +50,12 @@ const getAllDb = async (
 
   // for andCondition for where
 
-  const whereCondition: Prisma.BookingWhereInput =
+  const whereCondition: Prisma.BlogWhereInput =
     andConditions.length > 0 ? { AND: andConditions } : {};
 
-  const result = await prisma.booking.findMany({
+  const result = await prisma.blog.findMany({
     include:{
-      user:true,
-      service:true
+      user:true
     },
     where: whereCondition,
     skip,
@@ -71,7 +70,7 @@ const getAllDb = async (
             createdAt: 'desc',
           },
   });
-  const total = await prisma.booking.count();
+  const total = await prisma.blog.count();
   return {
     meta: {
       total,
@@ -82,42 +81,8 @@ const getAllDb = async (
   };
 };
 
-const getUserBooking = async (
-  authUser: any,
-  serviceId: string
-): Promise<Booking | null> => {
-  const result = await prisma.booking.findFirst({
-    where: {
-      userId: authUser?.id,
-      serviceId,
-    },
-  });
-  return result;
-};
-
-const getUserAllBooking = async (
-  authUser: any
-): Promise<{ data: Booking[]; meta: any} | null> => {
-  const result = await prisma.booking.findMany({
-    where: {
-      userId: authUser?.id,
-    },
-    include: {
-      service: true,
-      user: true,
-    },
-  });
-  const total = await prisma.booking.count();
-  return {
-    meta: {
-      total,
-    },
-    data: result
-  };
-};
-
-const getSingleData = async (id: string): Promise<Booking | null> => {
-  const result = await prisma.booking.findUnique({
+const getSingleData = async (id: string): Promise<Blog | null> => {
+  const result = await prisma.blog.findUnique({
     where: {
       id,
     },
@@ -128,9 +93,9 @@ const getSingleData = async (id: string): Promise<Booking | null> => {
 
 const updateOneInDB = async (
   id: string,
-  payload: Partial<Booking>
-): Promise<Booking> => {
-  const result = await prisma.booking.update({
+  payload: Partial<Blog>
+): Promise<Blog> => {
+  const result = await prisma.blog.update({
     where: {
       id,
     },
@@ -140,8 +105,8 @@ const updateOneInDB = async (
   return result;
 };
 
-const deleteByIdFromDB = async (id: string): Promise<Booking> => {
-  const result = await prisma.booking.delete({
+const deleteByIdFromDB = async (id: string): Promise<Blog> => {
+  const result = await prisma.blog.delete({
     where: {
       id,
     },
@@ -150,12 +115,10 @@ const deleteByIdFromDB = async (id: string): Promise<Booking> => {
   return result;
 };
 
-export const BookingServices = {
+export const BlogsServices = {
   insertDB,
   getAllDb,
   getSingleData,
   updateOneInDB,
   deleteByIdFromDB,
-  getUserBooking,
-  getUserAllBooking,
 };
