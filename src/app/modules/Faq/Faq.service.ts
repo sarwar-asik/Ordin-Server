@@ -53,9 +53,7 @@ const getAllDb = async (
     andConditions.length > 0 ? { AND: andConditions } : {};
 
   const result = await prisma.fAQ.findMany({
-    include: {
-      user: true,
-    },
+  
     where: whereCondition,
     skip,
     take: limit,

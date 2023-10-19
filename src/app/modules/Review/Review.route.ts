@@ -14,7 +14,7 @@ router.post(
   ReviewController.insertDB
 );
 
-router.get('/', auth(ENUM_USER_ROLE.ADMIN), ReviewController.getAllDb);
+router.get('/',  ReviewController.getAllDb);
 router.get(
   '/userReview',
   auth(ENUM_USER_ROLE.USER),
