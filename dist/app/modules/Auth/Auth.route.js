@@ -4,8 +4,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.authRoutes = void 0;
-/* eslint-disable no-unused-vars */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 const express_1 = require("express");
 const validateRequest_1 = __importDefault(require("../../middlewares/validateRequest"));
 const Auth_controller_1 = require("./Auth.controller");

@@ -15,7 +15,6 @@ const Services_route_1 = require("../modules/Services/Services.route");
 const Users_route_1 = require("../modules/Users/Users.route");
 const router = express_1.default.Router();
 const moduleRoutes = [
-    // ... routes
     {
         path: '/user',
         routes: Users_route_1.userRoutes,
