@@ -17,6 +17,7 @@ router.post(
   router.get('/',
   auth(ENUM_USER_ROLE.USER), 
   CartController.getAllDb);
+  
   router.get('/:id', CartController.getSingleDataById);
   
   router.patch(

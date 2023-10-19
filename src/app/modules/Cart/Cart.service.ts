@@ -3,7 +3,7 @@ import { UserCart } from '@prisma/client';
 import prisma from '../../../shared/prisma';
 
 const insertDB = async (cartData: UserCart): Promise<UserCart> => {
-  console.log(cartData);
+  // console.log(cartData);
 
   const result = await prisma.userCart.create({
     data: cartData,
@@ -12,7 +12,7 @@ const insertDB = async (cartData: UserCart): Promise<UserCart> => {
       user: true,
     },
   });
-  console.log(result, 'ressssssss');
+  // console.log(result, 'ressssssss');
 
   return result;
 };
@@ -52,6 +52,20 @@ const getSingleData = async (id: string): Promise<UserCart | null> => {
   return result;
 };
 
+const getUserCart = async (
+  authUser: any,
+
+): Promise<{data:UserCart[]} | null> => {
+  const result = await prisma.booking.findMany({
+    where: {
+      userId: authUser?.id,
+    },
+  });
+  return {
+    data:result
+  }
+};
+
 const updateOneInDB = async (
   id: string,
   payload: Partial<UserCart>
@@ -82,4 +96,5 @@ export const CartServices = {
   getSingleData,
   updateOneInDB,
   deleteByIdFromDB,
+  getUserCart
 };

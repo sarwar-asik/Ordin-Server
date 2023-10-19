@@ -1,6 +1,7 @@
-import { User } from '@prisma/client';
+import { Role, User } from '@prisma/client';
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';
+import ApiError from '../../../errors/ApiError';
 import catchAsync from '../../../shared/catchAsync';
 import pick from '../../../shared/pick';
 import sendResponse from '../../../shared/sendResponse';
@@ -8,7 +9,16 @@ import { UserFilterableFields } from './UserConstant';
 import { UsersService } from './Users.service';
 
 const createAdmin = catchAsync(async (req: Request, res: Response) => {
+  const authUser = req.user as any;
+
   const data = req.body;
+  console.log(authUser.role, 'and', data.role);
+
+  if (authUser.role !== Role.super_admin && data.role === 'admin') {
+    // console.log('yesssssss');
+    throw new ApiError(httpStatus.NOT_ACCEPTABLE, 'You can not create admin');
+  }
+
   const result = await UsersService.createAdmin(data);
 
   sendResponse<User>(res, {
@@ -39,7 +49,7 @@ const userProfile = catchAsync(async (req: Request, res: Response) => {
 const updateProfile = catchAsync(async (req: Request, res: Response) => {
   const authUser = req.user as any;
   const updateData = req.body;
-  console.log(updateData, 'update Profile data');
+  // console.log(updateData, 'update Profile data');
 
   const result = await UsersService.updateProfile(authUser, updateData);
 
@@ -97,7 +107,7 @@ const getSingleDataById = catchAsync(async (req: Request, res: Response) => {
 const updateUser = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id;
   const updateData = req.body;
-  console.log(updateData, 'update data');
+  // console.log(updateData, 'update data');
 
   const result = await UsersService.updateUser(id, updateData);
 

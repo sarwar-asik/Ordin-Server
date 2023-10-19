@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { Prisma, Role, User } from '@prisma/client';
 import httpStatus from 'http-status';
 import ApiError from '../../../errors/ApiError';
@@ -108,7 +109,7 @@ const updateProfile = async (
   updateData: Partial<User>
 ): Promise<User | null> => {
   const { email, id } = authUser;
-  console.log(email, 'email...', updateData);
+  // console.log(email, 'email...', updateData);
   if (updateData.role || updateData.password) {
     throw new ApiError(
       httpStatus.UNAUTHORIZED,
@@ -149,10 +150,10 @@ const updateUser = async (
   id: string,
   updateData: Partial<User>
 ): Promise<User | null> => {
-  console.log(id,"and",updateData);
+  // console.log(id,"and",updateData);
   const isSuperAdmin = await getSingleData(id) as any;
 
-  console.log("🚀 ~ file: Users.service.ts:153 ~ isSuperAdmin:", isSuperAdmin)
+  // console.log("🚀 ~ file: Users.service.ts:153 ~ isSuperAdmin:", isSuperAdmin)
 
   if(isSuperAdmin&&isSuperAdmin?.role === Role.super_admin){
     throw new ApiError(httpStatus.EXPECTATION_FAILED,"You can not update super admin")

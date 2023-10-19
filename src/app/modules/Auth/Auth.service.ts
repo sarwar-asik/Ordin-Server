@@ -13,7 +13,7 @@ const signUp = async (
 ): Promise<{ data: User; accessToken: string }> => {
   userData.password = await bcrypt.hash(userData.password, 10);
 
-  console.log("🚀 ~ file: Auth.service.ts:14 ~ userData:", userData)
+  // console.log("🚀 ~ file: Auth.service.ts:14 ~ userData:", userData)
 
   const result = await prisma.user.create({
     data: userData,
@@ -38,7 +38,7 @@ const authLogin = async (payload: {
 }): Promise<any> => {
   const { email, password } = payload;
 
-  console.log(payload, 'payload');
+  // console.log(payload, 'payload');
 
   // const isUserExist = await User.isUserExistsMethod(phoneNumber);
   // // console.log(isUserExist,"isUserExits");
@@ -48,7 +48,7 @@ const authLogin = async (payload: {
       email,
     },
   });
-  console.log(isUserExist);
+  // console.log(isUserExist);
 
   if (!isUserExist) {
     throw new ApiError(httpStatus.NOT_FOUND, 'User does not match');

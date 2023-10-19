@@ -80,4 +80,21 @@ const deleteByIdFromDB = catchAsync(async (req: Request, res: Response) => {
         data: result
     });
 });
-export const CartController ={insertDB,getAllDb,getSingleDataById,updateOneInDB,deleteByIdFromDB}
+
+
+const getUserCart  = catchAsync(async(req:Request,res:Response)=>{
+    const authUser = (req.user) as any
+    
+ 
+     const result = await CartServices.getUserCart(authUser)
+     
+     sendResponse<UserCart[]>(res,{
+         statusCode:httpStatus.OK,
+         success:true,
+         message:`Successfully get User Cart Data `,
+         data:result?.data
+     })
+   
+ })
+ 
+export const CartController ={insertDB,getAllDb,getSingleDataById,updateOneInDB,deleteByIdFromDB,getUserCart}

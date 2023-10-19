@@ -122,6 +122,8 @@ const getAllDb = async (
   const { limit, page, skip } = paginationHelpers.calculatePagination(options);
   const { searchTerm, ...filterData } = filters;
 
+  // console.log("🚀 ~ file: Services.service.ts:124 ~ searchTerm:", searchTerm)
+
   const andConditions = [];
 
   if (searchTerm) {
@@ -156,7 +158,7 @@ const getAllDb = async (
   }
 
   const whereConditions: Prisma.ServiceWhereInput =
-    andConditions.length > 0 ? { AND: andConditions } : {};
+  andConditions.length > 0 ? { AND: andConditions } : {};
 
   const result = await prisma.service.findMany({
     include: {
@@ -221,7 +223,7 @@ const updateOneInDB = async (
   id: string,
   payload: Partial<Service | any>
 ): Promise<Service> => {
-  console.log(id, 'annnnnd ', payload);
+  // console.log(id, 'annnnnd ', payload);
 
   if (payload.serviceDate) {
     // Parse serviceDate from string to Date

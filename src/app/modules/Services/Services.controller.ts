@@ -13,7 +13,7 @@ const insertDB = catchAsync(async (req: Request, res: Response) => {
   const data = req.body;
   const result = await ServiceServices.insertDB(data);
 
-  console.log('service created');
+  // console.log('service created');
 
   sendResponse<Service>(res, {
     statusCode: httpStatus.CREATED,
@@ -25,9 +25,10 @@ const insertDB = catchAsync(async (req: Request, res: Response) => {
 
 const getAllDb = catchAsync(async (req: Request, res: Response) => {
   // console.log(req.query,'from getAll db controller');
+  // console.log(req.query,"queryyyyyy");
   const filters = pick(req.query, ServiceFilterableFields);
   const options = pick(req.query, ['limit', 'page', 'sortBy', 'sortOrder']);
-  console.log(filters,"filters from controller");
+  // console.log(filters,"filters from controller",options);
   const result = await ServiceServices.getAllDb(filters, options);
   sendResponse(res, {
       statusCode: httpStatus.OK,

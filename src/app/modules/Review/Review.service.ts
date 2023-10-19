@@ -7,7 +7,7 @@ import { ReviewSearchableField } from './Review.constant';
 import { IReviewFilterRequest } from './Review.interface';
 
 const insertDB = async (cartData: Review): Promise<Review> => {
-  console.log(cartData);
+  // console.log(cartData);
   const result = await prisma.review.create({
     data: cartData,
     include: {

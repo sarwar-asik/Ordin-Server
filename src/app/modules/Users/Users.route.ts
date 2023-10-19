@@ -1,4 +1,3 @@
-
 import { Router } from 'express';
 import { ENUM_USER_ROLE } from '../../../enums/user';
 import auth from '../../middlewares/auth';
@@ -33,7 +32,7 @@ router.put(
 
 router.post(
   '/create-admin',
-  auth(ENUM_USER_ROLE.SUPER_ADMIN),
+  auth(ENUM_USER_ROLE.SUPER_ADMIN, ENUM_USER_ROLE.ADMIN),
   validateRequest(UsersValidation.createAdmin),
   UsersController.createAdmin
 );
