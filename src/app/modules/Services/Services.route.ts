@@ -1,5 +1,4 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable @typescript-eslint/no-unused-vars */
+
 import { Router } from 'express';
 
 import { ENUM_USER_ROLE } from '../../../enums/user';

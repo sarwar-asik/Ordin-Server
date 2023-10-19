@@ -22,5 +22,4 @@ const loginUser = z.object({
   }),
 });
 
-
-export const AuthValidation = { signUp,loginUser };
+export const AuthValidation = { signUp, loginUser };

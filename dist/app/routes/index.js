@@ -9,10 +9,10 @@ const Blogs_route_1 = require("../modules/Blogs/Blogs.route");
 const Booking_route_1 = require("../modules/Booking/Booking.route");
 const Cart_route_1 = require("../modules/Cart/Cart.route");
 const Category_route_1 = require("../modules/Category/Category.route");
+const Faq_route_1 = require("../modules/Faq/Faq.route");
 const Review_route_1 = require("../modules/Review/Review.route");
 const Services_route_1 = require("../modules/Services/Services.route");
 const Users_route_1 = require("../modules/Users/Users.route");
-const Faq_route_1 = require("../modules/Faq/Faq.route");
 const router = express_1.default.Router();
 const moduleRoutes = [
     // ... routes

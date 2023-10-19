@@ -4,15 +4,15 @@ import { blogsRoutes } from '../modules/Blogs/Blogs.route';
 import { BookingRoutes } from '../modules/Booking/Booking.route';
 import { cartRoutes } from '../modules/Cart/Cart.route';
 import { categoryRoutes } from '../modules/Category/Category.route';
+import { FAQRoutes } from '../modules/Faq/Faq.route';
 import { reviewRoutes } from '../modules/Review/Review.route';
 import { servicesRoutes } from '../modules/Services/Services.route';
 import { userRoutes } from '../modules/Users/Users.route';
-import { FAQRoutes } from '../modules/Faq/Faq.route';
 
 const router = express.Router();
 
 const moduleRoutes = [
-  // ... routes
+
   {
     path: '/user',
     routes: userRoutes,

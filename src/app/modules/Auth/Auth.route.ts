@@ -1,5 +1,4 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable @typescript-eslint/no-unused-vars */
+
 import { Router } from 'express';
 import validateRequest from '../../middlewares/validateRequest';
 import { AuthController } from './Auth.controller';
