@@ -54,6 +54,16 @@ const getSingleData = (id) => __awaiter(void 0, void 0, void 0, function* () {
     });
     return result;
 });
+const getUserCart = (authUser) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield prisma_1.default.booking.findMany({
+        where: {
+            userId: authUser === null || authUser === void 0 ? void 0 : authUser.id,
+        },
+    });
+    return {
+        data: result
+    };
+});
 const updateOneInDB = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield prisma_1.default.userCart.update({
         where: {
@@ -77,4 +87,5 @@ exports.CartServices = {
     getSingleData,
     updateOneInDB,
     deleteByIdFromDB,
+    getUserCart
 };

@@ -69,4 +69,14 @@ const deleteByIdFromDB = (0, catchAsync_1.default)((req, res) => __awaiter(void 
         data: result
     });
 }));
-exports.CartController = { insertDB, getAllDb, getSingleDataById, updateOneInDB, deleteByIdFromDB };
+const getUserCart = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const authUser = (req.user);
+    const result = yield Cart_service_1.CartServices.getUserCart(authUser);
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_1.default.OK,
+        success: true,
+        message: `Successfully get User Cart Data `,
+        data: result === null || result === void 0 ? void 0 : result.data
+    });
+}));
+exports.CartController = { insertDB, getAllDb, getSingleDataById, updateOneInDB, deleteByIdFromDB, getUserCart };

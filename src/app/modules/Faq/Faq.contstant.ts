@@ -1,3 +1,3 @@
-export const FAQSearchableField = ['question'];
+export const FAQSearchableField = ['question','answer'];
 
-export const FAQFilterableFields = ['searchTerm', 'question'];
+export const FAQFilterableFields = ['searchTerm', 'question','answer'];

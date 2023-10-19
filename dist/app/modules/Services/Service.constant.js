@@ -1,21 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.serviceRelationalFieldsMapper = exports.serviceRelationalFields = exports.ServiceSearchableField = exports.ServiceFilterableFields = void 0;
+exports.serviceRelationalFieldsMapper = exports.serviceRelationalFields = exports.ServiceFilterableFields = exports.ServiceSearchableField = void 0;
+exports.ServiceSearchableField = ['title', 'price', 'contact'];
 exports.ServiceFilterableFields = [
-    'searchTerm',
-    // 'contact',
-    // 'price',
-    // 'status',
-    'categoryId',
-    'id'
-];
-exports.ServiceSearchableField = [
-    'title',
     'contact',
     'price',
-    'status'
+    'searchTerm',
+    'title',
 ];
 exports.serviceRelationalFields = ['categoryId'];
 exports.serviceRelationalFieldsMapper = {
-    categoryId: 'categories'
+    categoryId: 'categories',
 };

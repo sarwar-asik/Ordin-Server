@@ -24,14 +24,22 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UsersController = void 0;
+const client_1 = require("@prisma/client");
 const http_status_1 = __importDefault(require("http-status"));
+const ApiError_1 = __importDefault(require("../../../errors/ApiError"));
 const catchAsync_1 = __importDefault(require("../../../shared/catchAsync"));
 const pick_1 = __importDefault(require("../../../shared/pick"));
 const sendResponse_1 = __importDefault(require("../../../shared/sendResponse"));
 const UserConstant_1 = require("./UserConstant");
 const Users_service_1 = require("./Users.service");
 const createAdmin = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const authUser = req.user;
     const data = req.body;
+    console.log(authUser.role, 'and', data.role);
+    if (authUser.role !== client_1.Role.super_admin && data.role === 'admin') {
+        // console.log('yesssssss');
+        throw new ApiError_1.default(http_status_1.default.NOT_ACCEPTABLE, 'You can not create admin');
+    }
     const result = yield Users_service_1.UsersService.createAdmin(data);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.CREATED,

@@ -17,4 +17,5 @@ router.get('/userBooking', (0, auth_1.default)(user_1.ENUM_USER_ROLE.USER), Book
 router.get('/:serviceId', Booking_controller_1.BookingController.getUserDataBooking);
 router.get('/:id', Booking_controller_1.BookingController.getSingleDataById);
 router.delete('/:id', (0, auth_1.default)(user_1.ENUM_USER_ROLE.SUPER_ADMIN, user_1.ENUM_USER_ROLE.ADMIN, user_1.ENUM_USER_ROLE.USER), Booking_controller_1.BookingController.deleteByIdFromDB);
+router.patch('/:id', (0, auth_1.default)(user_1.ENUM_USER_ROLE.SUPER_ADMIN, user_1.ENUM_USER_ROLE.ADMIN), Booking_controller_1.BookingController.updateOneInDB);
 exports.BookingRoutes = router;

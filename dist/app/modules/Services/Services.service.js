@@ -120,6 +120,7 @@ const insertDB = (serviceData) => __awaiter(void 0, void 0, void 0, function* ()
 const getAllDb = (filters, options) => __awaiter(void 0, void 0, void 0, function* () {
     const { limit, page, skip } = paginationHelper_1.paginationHelpers.calculatePagination(options);
     const { searchTerm } = filters, filterData = __rest(filters, ["searchTerm"]);
+    // console.log("🚀 ~ file: Services.service.ts:124 ~ searchTerm:", searchTerm)
     const andConditions = [];
     if (searchTerm) {
         andConditions.push({

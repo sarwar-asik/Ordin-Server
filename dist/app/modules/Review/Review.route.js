@@ -12,7 +12,7 @@ const Review_controller_1 = require("./Review.controller");
 const Review_validation_1 = require("./Review.validation");
 const router = (0, express_1.Router)();
 router.post('/', (0, auth_1.default)(user_1.ENUM_USER_ROLE.USER), (0, validateRequest_1.default)(Review_validation_1.ReviewValidation.createReview), Review_controller_1.ReviewController.insertDB);
-router.get('/', (0, auth_1.default)(user_1.ENUM_USER_ROLE.ADMIN), Review_controller_1.ReviewController.getAllDb);
+router.get('/', Review_controller_1.ReviewController.getAllDb);
 router.get('/userReview', (0, auth_1.default)(user_1.ENUM_USER_ROLE.USER), Review_controller_1.ReviewController.getUserAllReview);
 router.get('/:serviceId', Review_controller_1.ReviewController.getUserReviewByService);
 router.get('/:id', Review_controller_1.ReviewController.getSingleDataById);

@@ -32,9 +32,10 @@ const insertDB = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 
 }));
 const getAllDb = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     // console.log(req.query,'from getAll db controller');
+    // console.log(req.query,"queryyyyyy");
     const filters = (0, pick_1.default)(req.query, Service_constant_1.ServiceFilterableFields);
     const options = (0, pick_1.default)(req.query, ['limit', 'page', 'sortBy', 'sortOrder']);
-    console.log(filters, "filters from controller");
+    // console.log(filters,"filters from controller",options);
     const result = yield Services_service_1.ServiceServices.getAllDb(filters, options);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,

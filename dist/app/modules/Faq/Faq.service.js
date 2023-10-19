@@ -61,9 +61,6 @@ const getAllDb = (filters, options) => __awaiter(void 0, void 0, void 0, functio
     // for andCondition for where
     const whereCondition = andConditions.length > 0 ? { AND: andConditions } : {};
     const result = yield prisma_1.default.fAQ.findMany({
-        include: {
-            user: true,
-        },
         where: whereCondition,
         skip,
         take: limit,

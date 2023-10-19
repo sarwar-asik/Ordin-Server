@@ -15,7 +15,7 @@ router.get('/profile', (0, auth_1.default)(user_1.ENUM_USER_ROLE.USER, user_1.EN
 router.get('/', (0, auth_1.default)(user_1.ENUM_USER_ROLE.SUPER_ADMIN, user_1.ENUM_USER_ROLE.ADMIN), Users_controller_1.UsersController.getAllUsers);
 router.patch('/update', (0, auth_1.default)(user_1.ENUM_USER_ROLE.USER, user_1.ENUM_USER_ROLE.SUPER_ADMIN, user_1.ENUM_USER_ROLE.ADMIN), (0, validateRequest_1.default)(Users_validation_1.UsersValidation.updateProfile), Users_controller_1.UsersController.updateProfile);
 router.put('/:id', (0, auth_1.default)(user_1.ENUM_USER_ROLE.SUPER_ADMIN, user_1.ENUM_USER_ROLE.ADMIN), (0, validateRequest_1.default)(Users_validation_1.UsersValidation.updateProfile), Users_controller_1.UsersController.updateUser);
-router.post('/create-admin', (0, auth_1.default)(user_1.ENUM_USER_ROLE.SUPER_ADMIN), (0, validateRequest_1.default)(Users_validation_1.UsersValidation.createAdmin), Users_controller_1.UsersController.createAdmin);
+router.post('/create-admin', (0, auth_1.default)(user_1.ENUM_USER_ROLE.SUPER_ADMIN, user_1.ENUM_USER_ROLE.ADMIN), (0, validateRequest_1.default)(Users_validation_1.UsersValidation.createAdmin), Users_controller_1.UsersController.createAdmin);
 router.delete('/:id', (0, auth_1.default)(user_1.ENUM_USER_ROLE.ADMIN, user_1.ENUM_USER_ROLE.SUPER_ADMIN), Users_controller_1.UsersController.deleteByIdFromDB);
 router.get('/:id', (0, auth_1.default)(user_1.ENUM_USER_ROLE.ADMIN, user_1.ENUM_USER_ROLE.SUPER_ADMIN), Users_controller_1.UsersController.getSingleDataById);
 exports.userRoutes = router;
