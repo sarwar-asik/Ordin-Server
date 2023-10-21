@@ -6,7 +6,7 @@ import prisma from '../../../shared/prisma';
 import {
   ServiceSearchableField,
   serviceRelationalFields,
-  serviceRelationalFieldsMapper,
+  // serviceRelationalFieldsMapper,
 } from './Service.constant';
 import { IServiceFilterRequest } from './Service.interface';
 
@@ -122,7 +122,7 @@ const getAllDb = async (
   const { limit, page, skip } = paginationHelpers.calculatePagination(options);
   const { searchTerm, ...filterData } = filters;
 
-  // console.log("🚀 ~ file: Services.service.ts:124 ~ searchTerm:", searchTerm)
+  console.log("🚀 ~ file: Services.service.ts:124 ~ filters:", filters)
 
   const andConditions = [];
 
@@ -140,11 +140,13 @@ const getAllDb = async (
   if (Object.keys(filterData).length > 0) {
     andConditions.push({
       AND: Object.keys(filterData).map(key => {
+
         if (serviceRelationalFields.includes(key)) {
+          console.log(serviceRelationalFields);
           return {
-            [serviceRelationalFieldsMapper[key]]: {
-              id: (filterData as any)[key],
-            },
+           
+              [key]: (filterData as any)[key],
+         
           };
         } else {
           return {
@@ -157,18 +159,20 @@ const getAllDb = async (
     });
   }
 
+  // console.log(andConditions[0].AND,"aaaa");
   const whereConditions: Prisma.ServiceWhereInput =
   andConditions.length > 0 ? { AND: andConditions } : {};
 
   const result = await prisma.service.findMany({
     include: {
+      category: true,
+      publisher: true,
       reviews: {
         include: {
           user: true,
         },
       },
-      category: true,
-      publisher: true,
+     
       bookings: true,
     },
     where: whereConditions,
@@ -218,6 +222,8 @@ const getSingleData = async (id: string): Promise<Service | null> => {
 
   return result;
 };
+
+
 
 const updateOneInDB = async (
   id: string,

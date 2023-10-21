@@ -45,7 +45,7 @@ const SignUp = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0,
             statusCode: http_status_1.default.CREATED,
             success: true,
             message: 'Successfully SignUp',
-            data: userData
+            data: userData,
         });
     }
 }));
@@ -62,7 +62,18 @@ const login = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, 
         success: true,
         statusCode: 200,
         message: 'User sign In successfully!',
-        data: token
+        data: token,
     });
 }));
-exports.AuthController = { SignUp, login };
+const changePassword = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const authUser = (req.user);
+    const passData = req.body;
+    const result = yield Auth_service_1.AuthService.changePassword(authUser, passData);
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_1.default.OK,
+        message: 'Updated your password',
+        success: true,
+        data: result,
+    });
+}));
+exports.AuthController = { SignUp, login, changePassword };

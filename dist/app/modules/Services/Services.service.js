@@ -120,7 +120,7 @@ const insertDB = (serviceData) => __awaiter(void 0, void 0, void 0, function* ()
 const getAllDb = (filters, options) => __awaiter(void 0, void 0, void 0, function* () {
     const { limit, page, skip } = paginationHelper_1.paginationHelpers.calculatePagination(options);
     const { searchTerm } = filters, filterData = __rest(filters, ["searchTerm"]);
-    // console.log("🚀 ~ file: Services.service.ts:124 ~ searchTerm:", searchTerm)
+    console.log("🚀 ~ file: Services.service.ts:124 ~ filters:", filters);
     const andConditions = [];
     if (searchTerm) {
         andConditions.push({
@@ -136,10 +136,9 @@ const getAllDb = (filters, options) => __awaiter(void 0, void 0, void 0, functio
         andConditions.push({
             AND: Object.keys(filterData).map(key => {
                 if (Service_constant_1.serviceRelationalFields.includes(key)) {
+                    console.log(Service_constant_1.serviceRelationalFields);
                     return {
-                        [Service_constant_1.serviceRelationalFieldsMapper[key]]: {
-                            id: filterData[key],
-                        },
+                        [key]: filterData[key],
                     };
                 }
                 else {
@@ -152,16 +151,17 @@ const getAllDb = (filters, options) => __awaiter(void 0, void 0, void 0, functio
             }),
         });
     }
+    // console.log(andConditions[0].AND,"aaaa");
     const whereConditions = andConditions.length > 0 ? { AND: andConditions } : {};
     const result = yield prisma_1.default.service.findMany({
         include: {
+            category: true,
+            publisher: true,
             reviews: {
                 include: {
                     user: true,
                 },
             },
-            category: true,
-            publisher: true,
             bookings: true,
         },
         where: whereConditions,

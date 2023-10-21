@@ -14,12 +14,22 @@ const signUp = z.object({
 const loginUser = z.object({
   body: z.object({
     email: z.string({
-      required_error: 'email is required (zod)',
+      required_error: 'email is required ',
     }),
     password: z.string({
-      required_error: 'password is required (zod)',
+      required_error: 'password is required ',
+    }),
+  }),
+});
+const changePassword = z.object({
+  body: z.object({
+    oldPassword: z.string({
+      required_error: 'oldPassword is required ',
+    }),
+    newPassword: z.string({
+      required_error: 'newPassword is required ',
     }),
   }),
 });
 
-export const AuthValidation = { signUp, loginUser };
+export const AuthValidation = { signUp, loginUser,changePassword };

@@ -57,10 +57,38 @@ const authLogin = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const token = jwtHelpers_1.jwtHelpers.createToken({
         email,
         role: isUserExist.role,
-        id: isUserExist.id
+        id: isUserExist.id,
     }, config_1.default.jwt.secret, config_1.default.jwt.expires_in);
     return {
-        accessToken: token
+        accessToken: token,
     };
 });
-exports.AuthService = { signUp, authLogin };
+const changePassword = (authUser, passwordData) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = authUser;
+    // console.log(authUser);
+    const { oldPassword, newPassword } = passwordData;
+    const password = yield bcrypt_1.default.hash(newPassword, 10);
+    const isUserExist = yield prisma_1.default.user.findUnique({
+        where: {
+            id,
+        },
+    });
+    // console.log(isUserExist);
+    if (!isUserExist) {
+        throw new ApiError_1.default(http_status_1.default.NOT_FOUND, 'User does not match');
+    }
+    const isPasswordMatch = yield bcrypt_1.default.compare(oldPassword, isUserExist === null || isUserExist === void 0 ? void 0 : isUserExist.password);
+    if (isUserExist.password && !isPasswordMatch) {
+        throw new ApiError_1.default(http_status_1.default.NOT_FOUND, 'Old Password is not correct');
+    }
+    const updatePass = yield prisma_1.default.user.update({
+        where: {
+            id
+        },
+        data: {
+            password
+        }
+    });
+    return updatePass;
+});
+exports.AuthService = { signUp, authLogin, changePassword };

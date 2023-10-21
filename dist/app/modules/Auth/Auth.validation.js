@@ -16,11 +16,21 @@ const signUp = zod_1.z.object({
 const loginUser = zod_1.z.object({
     body: zod_1.z.object({
         email: zod_1.z.string({
-            required_error: 'email is required (zod)',
+            required_error: 'email is required ',
         }),
         password: zod_1.z.string({
-            required_error: 'password is required (zod)',
+            required_error: 'password is required ',
         }),
     }),
 });
-exports.AuthValidation = { signUp, loginUser };
+const changePassword = zod_1.z.object({
+    body: zod_1.z.object({
+        oldPassword: zod_1.z.string({
+            required_error: 'oldPassword is required ',
+        }),
+        newPassword: zod_1.z.string({
+            required_error: 'newPassword is required ',
+        }),
+    }),
+});
+exports.AuthValidation = { signUp, loginUser, changePassword };

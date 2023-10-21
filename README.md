@@ -9,5 +9,5 @@
 - JWT
 - bycrypt
 - husky
-- ts-node-dev
+- ts-node-dev  
 -

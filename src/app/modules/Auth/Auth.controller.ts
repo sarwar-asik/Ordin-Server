@@ -18,14 +18,14 @@ const SignUp = catchAsync(async (req: Request, res: Response) => {
 
   if (result) {
     res.cookie(tokenName, result?.accessToken, cookieOptions);
-  // eslint-disable-next-line no-unused-vars
-  const {password,...userData} = result.data
+    // eslint-disable-next-line no-unused-vars
+    const { password, ...userData } = result.data;
 
     sendResponse<Partial<User>>(res, {
       statusCode: httpStatus.CREATED,
       success: true,
       message: 'Successfully SignUp',
-      data: userData
+      data: userData,
     });
   }
 });
@@ -48,8 +48,20 @@ const login = catchAsync(async (req: Request, res: Response) => {
     success: true,
     statusCode: 200,
     message: 'User sign In successfully!',
-   data:token
+    data: token,
   });
 });
 
-export const AuthController = { SignUp, login };
+const changePassword = catchAsync(async (req: Request, res: Response) => {
+  const authUser =( req.user) as any;
+  const passData = req.body;
+  const result = await AuthService.changePassword(authUser, passData);
+
+  sendResponse<Partial<User>>(res, {
+    statusCode: httpStatus.OK,
+    message: 'Updated your password',
+    success: true,
+    data: result,
+  });
+});
+export const AuthController = { SignUp, login, changePassword };

@@ -7,8 +7,10 @@ exports.ServiceFilterableFields = [
     'price',
     'searchTerm',
     'title',
+    'categoryId',
+    'publisherId'
 ];
-exports.serviceRelationalFields = ['categoryId'];
+exports.serviceRelationalFields = ['categoryId', 'publisherId'];
 exports.serviceRelationalFieldsMapper = {
     categoryId: 'categories',
 };

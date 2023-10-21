@@ -32,6 +32,7 @@ const signUp = async (
     data: result,
   };
 };
+
 const authLogin = async (payload: {
   email?: string;
   password: string;
@@ -66,15 +67,55 @@ const authLogin = async (payload: {
     {
       email,
       role: isUserExist.role,
-      id:isUserExist.id
+      id: isUserExist.id,
     },
     config.jwt.secret as Secret,
     config.jwt.expires_in as string
   );
 
   return {
-    accessToken:token
+    accessToken: token,
   };
 };
 
-export const AuthService = { signUp, authLogin };
+const changePassword = async (authUser:any, passwordData:any): Promise<any> => {
+  const { id } = authUser;
+  // console.log(authUser);
+  const {oldPassword,newPassword} = passwordData;
+
+
+  const password = await bcrypt.hash(newPassword, 10);
+
+
+  const isUserExist = await prisma.user.findUnique({
+    where: {
+      id,
+    },
+  });
+  // console.log(isUserExist);
+
+  if (!isUserExist) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'User does not match');
+  }
+
+  const isPasswordMatch = await bcrypt.compare(oldPassword, isUserExist?.password);
+
+  if (isUserExist.password && !isPasswordMatch) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Old Password is not correct');
+  }
+
+  const updatePass = await prisma.user.update({
+    where:{
+      id
+    },
+    data:{
+      password
+    }
+  })
+
+return updatePass
+
+
+};
+
+export const AuthService = { signUp, authLogin,changePassword };
