@@ -11,7 +11,7 @@ const validateRequest_1 = __importDefault(require("../../middlewares/validateReq
 const Review_controller_1 = require("./Review.controller");
 const Review_validation_1 = require("./Review.validation");
 const router = (0, express_1.Router)();
-router.post('/', (0, auth_1.default)(user_1.ENUM_USER_ROLE.USER), (0, validateRequest_1.default)(Review_validation_1.ReviewValidation.createReview), Review_controller_1.ReviewController.insertDB);
+router.post('/', (0, auth_1.default)(user_1.ENUM_USER_ROLE.USER, user_1.ENUM_USER_ROLE.ADMIN, user_1.ENUM_USER_ROLE.SUPER_ADMIN), (0, validateRequest_1.default)(Review_validation_1.ReviewValidation.createReview), Review_controller_1.ReviewController.insertDB);
 router.get('/', Review_controller_1.ReviewController.getAllDb);
 router.get('/userReview', (0, auth_1.default)(user_1.ENUM_USER_ROLE.USER), Review_controller_1.ReviewController.getUserAllReview);
 router.get('/:serviceId', Review_controller_1.ReviewController.getUserReviewByService);

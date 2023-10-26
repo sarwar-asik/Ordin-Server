@@ -29,8 +29,6 @@ const getAllDb = catchAsync(async(req:Request,res:Response)=>{
     // console.log(req.query,'from getAll db controller');
     const authUser = (req.user) as any
 
- 
-
     
 
     const result = await CartServices.getAllDb(authUser)

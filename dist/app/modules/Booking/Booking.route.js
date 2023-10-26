@@ -11,7 +11,7 @@ const validateRequest_1 = __importDefault(require("../../middlewares/validateReq
 const Booking_controller_1 = require("./Booking.controller");
 const Booking_validation_1 = require("./Booking.validation");
 const router = (0, express_1.Router)();
-router.post('/', (0, auth_1.default)(user_1.ENUM_USER_ROLE.USER), (0, validateRequest_1.default)(Booking_validation_1.BookingValidation.createBooking), Booking_controller_1.BookingController.insertDB);
+router.post('/', (0, auth_1.default)(user_1.ENUM_USER_ROLE.USER, user_1.ENUM_USER_ROLE.ADMIN, user_1.ENUM_USER_ROLE.SUPER_ADMIN), (0, validateRequest_1.default)(Booking_validation_1.BookingValidation.createBooking), Booking_controller_1.BookingController.insertDB);
 router.get('/', (0, auth_1.default)(user_1.ENUM_USER_ROLE.ADMIN, user_1.ENUM_USER_ROLE.SUPER_ADMIN), Booking_controller_1.BookingController.getAllDb);
 router.get('/userBooking', (0, auth_1.default)(user_1.ENUM_USER_ROLE.USER), Booking_controller_1.BookingController.getUserAllBooking);
 router.get('/:serviceId', Booking_controller_1.BookingController.getUserDataBooking);
