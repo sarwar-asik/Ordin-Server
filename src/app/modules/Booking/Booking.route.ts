@@ -14,6 +14,9 @@ router.post(
   BookingController.insertDB
 );
 
+
+
+
 router.get('/', auth(ENUM_USER_ROLE.ADMIN,ENUM_USER_ROLE.SUPER_ADMIN), BookingController.getAllDb);
 router.get(
   '/userBooking',
