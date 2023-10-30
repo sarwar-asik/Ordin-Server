@@ -115,18 +115,6 @@ enum PaymentStatus {
   success
 }
 
-model Payment {
-  id            String         @id @default(uuid())
-  paymentDate   DateTime       @default(now())
-  paymentStatus PaymentStatus?
-  serviceId     String
-  service       Service        @relation(fields: [serviceId], references: [id])
-  userId        String
-  user          User           @relation(fields: [userId], references: [id])
-  createdAt     DateTime       @default(now())
-  updatedAt     DateTime       @updatedAt
-}
-
 model Review {
   id          String   @id @default(uuid())
   reviews     String?
@@ -163,6 +151,20 @@ model FAQ {
   updatedAt DateTime @updatedAt
 }
 
-
 // ! Payment //
 
+model Payment {
+  id            String         @id @default(uuid())
+  paymentDate   DateTime       @default(now())
+  paymentStatus PaymentStatus?
+  serviceId     String
+  service       Service        @relation(fields: [serviceId], references: [id])
+  userId        String
+  email     String?
+  user          User           @relation(fields: [userId], references: [id])
+
+  transactionId      String?
+  paymentGatewayData Json?
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+}

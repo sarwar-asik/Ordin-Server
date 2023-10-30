@@ -1,3 +1,4 @@
+import prisma from '../../../shared/prisma';
 import { sslService } from '../SSL/ssl.service';
 
 type TransactionData = {
@@ -5,9 +6,11 @@ type TransactionData = {
   tran_id: string;
   shipping_method: string;
   product_name: string;
+  product_id: string;
   product_category: string;
   cus_name: string;
   cus_email: string;
+  cus_id: string;
   cus_add: string;
   cus_country: string;
   cus_phone: string;
@@ -30,7 +33,23 @@ const initPayment = async (data: TransactionData) => {
     ship_country: data.ship_country,
   });
 
-  return paymentSession;
+  await prisma.payment.create({
+    data: {
+      transactionId: data.tran_id,
+      serviceId: data.product_id,
+      userId: data.cus_id,
+    },
+  });
+
+
+  return paymentSession.redirectGatewayURL;
 };
 
-export const PaymentService = { initPayment };
+const webHook = async(payload:any)=>{
+  console.log(payload);
+  console.log("web hooks");
+  const result = await sslService.validate(payload)
+  return result
+}
+
+export const PaymentService = { initPayment ,webHook};
