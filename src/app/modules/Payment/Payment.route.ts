@@ -2,9 +2,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Router } from 'express';
 import { PaymentController } from './Payment.controller';
-import {PaymentValidation } from './Payment.validation';
 const router = Router();
-router.get('/')
-router.post('/')
+router.get('/');
+router.post('/', PaymentController.initPayment);
 
-export const PaymentRoutes = router;
+export const paymentRoutes = router;
