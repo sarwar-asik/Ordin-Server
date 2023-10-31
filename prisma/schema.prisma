@@ -156,7 +156,7 @@ model FAQ {
 model Payment {
   id            String         @id @default(uuid())
   paymentDate   DateTime       @default(now())
-  paymentStatus PaymentStatus?
+  paymentStatus PaymentStatus? @default(pending)
   serviceId     String
   service       Service        @relation(fields: [serviceId], references: [id])
   userId        String
