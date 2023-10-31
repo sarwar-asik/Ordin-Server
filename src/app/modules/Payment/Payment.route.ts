@@ -5,7 +5,7 @@ import { ENUM_USER_ROLE } from '../../../enums/user';
 import auth from '../../middlewares/auth';
 import { PaymentController } from './Payment.controller';
 const router = Router();
-router.get('/');
+
 router.post('/', PaymentController.initPayment);
 router.post('/webhook', PaymentController.webHook);
 
