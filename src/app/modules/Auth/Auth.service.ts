@@ -118,4 +118,20 @@ return updatePass
 
 };
 
-export const AuthService = { signUp, authLogin,changePassword };
+
+const forgotPassword = async (authUser:any, passwordData:any): Promise<any> =>{
+  console.log("🚀passwordData:", passwordData)
+  
+  const isUserExist = await prisma.user.findUnique({
+    where: {
+    id:authUser.id,
+    },
+  });
+  // console.log(isUserExist);
+
+  if (!isUserExist) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'User does not match');
+  }
+
+}
+export const AuthService = { signUp, authLogin,changePassword ,forgotPassword};
