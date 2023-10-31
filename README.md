@@ -19,6 +19,8 @@
 
 ## API Endpoints and Descriptions
 
+The backend server is built with a focus on modularity, security, and performance. It provides comprehensive functionalities to serve the front-end of the web application, ensuring a seamless and secure user experience. The server's use of Node.js and Express, in combination with other technologies, ensures reliable performance and scalability for a wide range of applications.
+
 ### modules
 
 
