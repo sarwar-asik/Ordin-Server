@@ -25,6 +25,7 @@ router.patch(
 );
 router.post(
   '/forgot-password',
+  validateRequest(AuthValidation.forgotPassword),
   AuthController.forgotPassword
 );
 

@@ -140,8 +140,9 @@ const forgotPassword = async (passwordData: any): Promise<any> => {
     id: isUserExist?.id,
     email: isUserExist.email,
   });
-  console.log(passResetToken, '');
-  await senMailer(resetPasswordSubject, isUserExist.email, resetPasswordHTML);
+  const resetLink:string = config.frontend_url+'/resetPassword?'+`token=${passResetToken}`
+  // console.log(passResetToken, '');
+  await senMailer(resetPasswordSubject, isUserExist.email, resetPasswordHTML(resetLink));
 
   return passResetToken;
 };

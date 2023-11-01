@@ -67,13 +67,13 @@ const changePassword = catchAsync(async (req: Request, res: Response) => {
 
 const forgotPassword = catchAsync(async (req: Request, res: Response) => {
   const passData = req.body;
-  const result = await AuthService.forgotPassword( passData);
+ await AuthService.forgotPassword( passData);
 
   sendResponse<Partial<User>>(res, {
     statusCode: httpStatus.OK,
-    message: 'Updated your forgot password',
+    message: 'Check your email',
     success: true,
-    data: result,
+   
   });
 });
 export const AuthController = { SignUp, login, changePassword,forgotPassword };
