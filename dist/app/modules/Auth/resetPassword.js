@@ -1,6 +1,8 @@
-export const resetPasswordSubject = "Reset Your Password";
-
-export const resetPasswordHTML = (link: string) => {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.resetPasswordHTML = exports.resetPasswordSubject = void 0;
+exports.resetPasswordSubject = "Reset Your Password";
+const resetPasswordHTML = (link) => {
     return `<html>
     <head>
         <meta charset="UTF-8">
@@ -64,4 +66,5 @@ export const resetPasswordHTML = (link: string) => {
     </body>
     </html>
     `;
-}
+};
+exports.resetPasswordHTML = resetPasswordHTML;

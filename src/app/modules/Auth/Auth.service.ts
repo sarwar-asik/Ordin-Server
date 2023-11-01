@@ -15,7 +15,7 @@ const signUp = async (
 ): Promise<{ data: User; accessToken: string }> => {
   userData.password = await bcrypt.hash(
     userData.password,
-    config.bycrypt_salt_rounds || 10
+    Number(config.bycrypt_salt_rounds)
   );
 
   // console.log("🚀 ~ file: Auth.service.ts:14 ~ userData:", userData)
@@ -93,7 +93,7 @@ const changePassword = async (
 
   const password = await bcrypt.hash(
     newPassword,
-    config.bycrypt_salt_rounds || 10
+    Number(config.bycrypt_salt_rounds)
   );
 
   const isUserExist = await prisma.user.findUnique({
@@ -169,7 +169,7 @@ const resetPassword = async (
 
   const newPassword = await bcrypt.hash(
     passwordData.newPassword,
-    config.bycrypt_salt_rounds || 10
+    Number(config.bycrypt_salt_rounds)
   );
 
   const isUserExist = await prisma.user.findUnique({

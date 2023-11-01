@@ -33,4 +33,27 @@ const changePassword = zod_1.z.object({
         }),
     }),
 });
-exports.AuthValidation = { signUp, loginUser, changePassword };
+const forgotPassword = zod_1.z.object({
+    body: zod_1.z.object({
+        email: zod_1.z.string({
+            required_error: 'email is required ',
+        }),
+    }),
+});
+const resetPassword = zod_1.z.object({
+    body: zod_1.z.object({
+        email: zod_1.z.string({
+            required_error: 'email is required ',
+        }),
+        newPassword: zod_1.z.string({
+            required_error: 'newPassword is required ',
+        }),
+    }),
+});
+exports.AuthValidation = {
+    signUp,
+    loginUser,
+    changePassword,
+    forgotPassword,
+    resetPassword
+};

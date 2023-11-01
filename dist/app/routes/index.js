@@ -13,6 +13,7 @@ const Faq_route_1 = require("../modules/Faq/Faq.route");
 const Review_route_1 = require("../modules/Review/Review.route");
 const Services_route_1 = require("../modules/Services/Services.route");
 const Users_route_1 = require("../modules/Users/Users.route");
+const Payment_route_1 = require("../modules/Payment/Payment.route");
 const router = express_1.default.Router();
 const moduleRoutes = [
     {
@@ -50,6 +51,10 @@ const moduleRoutes = [
     {
         path: '/FAQ',
         routes: Faq_route_1.FAQRoutes,
+    },
+    {
+        path: '/payment',
+        routes: Payment_route_1.paymentRoutes,
     },
 ];
 moduleRoutes.forEach(route => router.use(route.path, route.routes));

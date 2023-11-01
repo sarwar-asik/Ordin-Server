@@ -19,8 +19,10 @@ const prisma_1 = __importDefault(require("../../../shared/prisma"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const http_status_1 = __importDefault(require("http-status"));
 const ApiError_1 = __importDefault(require("../../../errors/ApiError"));
+const sendMailer_1 = require("../../../helpers/sendMailer");
+const resetPassword_1 = require("./resetPassword");
 const signUp = (userData) => __awaiter(void 0, void 0, void 0, function* () {
-    userData.password = yield bcrypt_1.default.hash(userData.password, 10);
+    userData.password = yield bcrypt_1.default.hash(userData.password, Number(config_1.default.bycrypt_salt_rounds));
     // console.log("🚀 ~ file: Auth.service.ts:14 ~ userData:", userData)
     const result = yield prisma_1.default.user.create({
         data: userData,
@@ -67,7 +69,7 @@ const changePassword = (authUser, passwordData) => __awaiter(void 0, void 0, voi
     const { id } = authUser;
     // console.log(authUser);
     const { oldPassword, newPassword } = passwordData;
-    const password = yield bcrypt_1.default.hash(newPassword, 10);
+    const password = yield bcrypt_1.default.hash(newPassword, Number(config_1.default.bycrypt_salt_rounds));
     const isUserExist = yield prisma_1.default.user.findUnique({
         where: {
             id,
@@ -83,12 +85,64 @@ const changePassword = (authUser, passwordData) => __awaiter(void 0, void 0, voi
     }
     const updatePass = yield prisma_1.default.user.update({
         where: {
-            id
+            id,
         },
         data: {
-            password
-        }
+            password,
+        },
     });
     return updatePass;
 });
-exports.AuthService = { signUp, authLogin, changePassword };
+const forgotPassword = (passwordData) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log('🚀passwordData:', passwordData);
+    const isUserExist = yield prisma_1.default.user.findUnique({
+        where: {
+            email: passwordData.email,
+        },
+    });
+    // console.log(isUserExist);
+    if (!isUserExist) {
+        throw new ApiError_1.default(http_status_1.default.NOT_FOUND, 'User NOt Found');
+    }
+    const passResetToken = yield jwtHelpers_1.jwtHelpers.createPassResetToken({
+        id: isUserExist === null || isUserExist === void 0 ? void 0 : isUserExist.id,
+        email: isUserExist.email,
+    });
+    const resetLink = config_1.default.frontend_url + '/resetPassword?' + `token=${passResetToken}`;
+    // console.log(passResetToken, '');
+    yield (0, sendMailer_1.senMailer)(resetPassword_1.resetPasswordSubject, isUserExist.email, (0, resetPassword_1.resetPasswordHTML)(resetLink));
+    return passResetToken;
+});
+const resetPassword = (passwordData, token) => __awaiter(void 0, void 0, void 0, function* () {
+    // console.log(passwordData, token);
+    const newPassword = yield bcrypt_1.default.hash(passwordData.newPassword, Number(config_1.default.bycrypt_salt_rounds));
+    const isUserExist = yield prisma_1.default.user.findUnique({
+        where: {
+            email: passwordData === null || passwordData === void 0 ? void 0 : passwordData.email,
+        },
+    });
+    console.log(isUserExist);
+    if (!isUserExist) {
+        throw new ApiError_1.default(http_status_1.default.NOT_FOUND, 'User NOt Found');
+    }
+    const isVerified = yield jwtHelpers_1.jwtHelpers.verifyToken(token, config_1.default.jwt.secret);
+    if (!isVerified) {
+        throw new ApiError_1.default(http_status_1.default.NOT_FOUND, 'token is expired');
+    }
+    const updatePass = yield prisma_1.default.user.update({
+        where: {
+            email: isUserExist === null || isUserExist === void 0 ? void 0 : isUserExist.email,
+        },
+        data: {
+            password: newPassword,
+        },
+    });
+    return updatePass;
+});
+exports.AuthService = {
+    signUp,
+    authLogin,
+    changePassword,
+    forgotPassword,
+    resetPassword,
+};
