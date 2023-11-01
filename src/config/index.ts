@@ -23,6 +23,7 @@ export default {
     store_passwd: process.env.store_passwd,
     sslPaymentUrl: process.env.sslPaymentUrl,
   },
+  frontend_url:process.env.frontend_url,
   nodeMailer: {
     FromEmail: process.env.FromEmail,
     appPassword: process.env.appPassword,

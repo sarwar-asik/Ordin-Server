@@ -7,6 +7,8 @@ import prisma from '../../../shared/prisma';
 import bcrypt from 'bcrypt';
 import httpStatus from 'http-status';
 import ApiError from '../../../errors/ApiError';
+import { senMailer } from '../../../helpers/sendMailer';
+import { resetPasswordHTML, resetPasswordSubject } from './resetPassword';
 
 const signUp = async (
   userData: User
@@ -78,14 +80,15 @@ const authLogin = async (payload: {
   };
 };
 
-const changePassword = async (authUser:any, passwordData:any): Promise<any> => {
+const changePassword = async (
+  authUser: any,
+  passwordData: any
+): Promise<any> => {
   const { id } = authUser;
   // console.log(authUser);
-  const {oldPassword,newPassword} = passwordData;
-
+  const { oldPassword, newPassword } = passwordData;
 
   const password = await bcrypt.hash(newPassword, 10);
-
 
   const isUserExist = await prisma.user.findUnique({
     where: {
@@ -98,33 +101,33 @@ const changePassword = async (authUser:any, passwordData:any): Promise<any> => {
     throw new ApiError(httpStatus.NOT_FOUND, 'User does not match');
   }
 
-  const isPasswordMatch = await bcrypt.compare(oldPassword, isUserExist?.password);
+  const isPasswordMatch = await bcrypt.compare(
+    oldPassword,
+    isUserExist?.password
+  );
 
   if (isUserExist.password && !isPasswordMatch) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Old Password is not correct');
   }
 
   const updatePass = await prisma.user.update({
-    where:{
-      id
+    where: {
+      id,
     },
-    data:{
-      password
-    }
-  })
+    data: {
+      password,
+    },
+  });
 
-return updatePass
-
-
+  return updatePass;
 };
 
+const forgotPassword = async (passwordData: any): Promise<any> => {
+  console.log('🚀passwordData:', passwordData);
 
-const forgotPassword = async (passwordData:any): Promise<any> =>{
-  console.log("🚀passwordData:", passwordData)
-  
   const isUserExist = await prisma.user.findUnique({
     where: {
-    email:passwordData.id,
+      email: passwordData.email,
     },
   });
   // console.log(isUserExist);
@@ -133,10 +136,18 @@ const forgotPassword = async (passwordData:any): Promise<any> =>{
     throw new ApiError(httpStatus.NOT_FOUND, 'User NOt Found');
   }
 
-  const passResetToken = await jwtHelpers.createPassResetToken({id:isUserExist?.id,email:isUserExist.email})
-  console.log(passResetToken,"");
+  const passResetToken = await jwtHelpers.createPassResetToken({
+    id: isUserExist?.id,
+    email: isUserExist.email,
+  });
+  console.log(passResetToken, '');
+  await senMailer(resetPasswordSubject, isUserExist.email, resetPasswordHTML);
 
-  return passResetToken
-
-}
-export const AuthService = { signUp, authLogin,changePassword ,forgotPassword};
+  return passResetToken;
+};
+export const AuthService = {
+  signUp,
+  authLogin,
+  changePassword,
+  forgotPassword,
+};
