@@ -38,5 +38,21 @@ const forgotPassword = z.object({
     }),
   }),
 });
+const resetPassword = z.object({
+  body: z.object({
+    email: z.string({
+      required_error: 'email is required ',
+    }),
+    newPassword: z.string({
+      required_error: 'newPassword is required ',
+    }),
+  }),
+});
 
-export const AuthValidation = { signUp, loginUser, changePassword,forgotPassword };
+export const AuthValidation = {
+  signUp,
+  loginUser,
+  changePassword,
+  forgotPassword,
+  resetPassword
+};

@@ -76,4 +76,17 @@ const forgotPassword = catchAsync(async (req: Request, res: Response) => {
    
   });
 });
-export const AuthController = { SignUp, login, changePassword,forgotPassword };
+
+const resetPassword = catchAsync(async (req: Request, res: Response) => {
+  const passData = req.body;
+  const token = req.headers.authorization || "token"
+ await AuthService.resetPassword( passData,token);
+
+  sendResponse<Partial<User>>(res, {
+    statusCode: httpStatus.OK,
+    message: 'Account recovered ',
+    success: true,
+   
+  });
+});
+export const AuthController = { SignUp, login, changePassword,forgotPassword ,resetPassword};

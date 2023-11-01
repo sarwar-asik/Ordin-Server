@@ -13,7 +13,10 @@ import { resetPasswordHTML, resetPasswordSubject } from './resetPassword';
 const signUp = async (
   userData: User
 ): Promise<{ data: User; accessToken: string }> => {
-  userData.password = await bcrypt.hash(userData.password, 10);
+  userData.password = await bcrypt.hash(
+    userData.password,
+    config.bycrypt_salt_rounds || 10
+  );
 
   // console.log("🚀 ~ file: Auth.service.ts:14 ~ userData:", userData)
 
@@ -88,7 +91,10 @@ const changePassword = async (
   // console.log(authUser);
   const { oldPassword, newPassword } = passwordData;
 
-  const password = await bcrypt.hash(newPassword, 10);
+  const password = await bcrypt.hash(
+    newPassword,
+    config.bycrypt_salt_rounds || 10
+  );
 
   const isUserExist = await prisma.user.findUnique({
     where: {
@@ -140,15 +146,66 @@ const forgotPassword = async (passwordData: any): Promise<any> => {
     id: isUserExist?.id,
     email: isUserExist.email,
   });
-  const resetLink:string = config.frontend_url+'/resetPassword?'+`token=${passResetToken}`
+  const resetLink: string =
+    config.frontend_url + '/resetPassword?' + `token=${passResetToken}`;
   // console.log(passResetToken, '');
-  await senMailer(resetPasswordSubject, isUserExist.email, resetPasswordHTML(resetLink));
+  await senMailer(
+    resetPasswordSubject,
+    isUserExist.email,
+    resetPasswordHTML(resetLink)
+  );
 
   return passResetToken;
+};
+
+const resetPassword = async (
+  passwordData: {
+    email: string;
+    newPassword: string;
+  },
+  token: string
+): Promise<any> => {
+  // console.log(passwordData, token);
+
+  const newPassword = await bcrypt.hash(
+    passwordData.newPassword,
+    config.bycrypt_salt_rounds || 10
+  );
+
+  const isUserExist = await prisma.user.findUnique({
+    where: {
+      email: passwordData?.email,
+    },
+  });
+  console.log(isUserExist);
+
+  if (!isUserExist) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'User NOt Found');
+  }
+
+  const isVerified = await jwtHelpers.verifyToken(
+    token,
+    config.jwt.secret as Secret
+  );
+  if (!isVerified) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'token is expired');
+  }
+
+  const updatePass = await prisma.user.update({
+    where: {
+      email: isUserExist?.email,
+    },
+    data: {
+      password: newPassword,
+    },
+  });
+
+  return updatePass;
 };
 export const AuthService = {
   signUp,
   authLogin,
   changePassword,
   forgotPassword,
+  resetPassword,
 };
