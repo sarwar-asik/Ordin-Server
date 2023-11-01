@@ -119,19 +119,24 @@ return updatePass
 };
 
 
-const forgotPassword = async (authUser:any, passwordData:any): Promise<any> =>{
+const forgotPassword = async (passwordData:any): Promise<any> =>{
   console.log("🚀passwordData:", passwordData)
   
   const isUserExist = await prisma.user.findUnique({
     where: {
-    id:authUser.id,
+    email:passwordData.id,
     },
   });
   // console.log(isUserExist);
 
   if (!isUserExist) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'User does not match');
+    throw new ApiError(httpStatus.NOT_FOUND, 'User NOt Found');
   }
+
+  const passResetToken = await jwtHelpers.createPassResetToken({id:isUserExist?.id,email:isUserExist.email})
+  console.log(passResetToken,"");
+
+  return passResetToken
 
 }
 export const AuthService = { signUp, authLogin,changePassword ,forgotPassword};

@@ -66,9 +66,8 @@ const changePassword = catchAsync(async (req: Request, res: Response) => {
 });
 
 const forgotPassword = catchAsync(async (req: Request, res: Response) => {
-  const authUser =( req.user) as any;
   const passData = req.body;
-  const result = await AuthService.forgotPassword(authUser, passData);
+  const result = await AuthService.forgotPassword( passData);
 
   sendResponse<Partial<User>>(res, {
     statusCode: httpStatus.OK,
