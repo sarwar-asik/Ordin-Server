@@ -108,7 +108,7 @@ const forgotPassword = (passwordData) => __awaiter(void 0, void 0, void 0, funct
         id: isUserExist === null || isUserExist === void 0 ? void 0 : isUserExist.id,
         email: isUserExist.email,
     });
-    const resetLink = config_1.default.frontend_url + '/resetPassword?' + `token=${passResetToken}`;
+    const resetLink = config_1.default.frontend_url + '/resetPassword?' + `id=${isUserExist === null || isUserExist === void 0 ? void 0 : isUserExist.id}&token=${passResetToken}`;
     // console.log(passResetToken, '');
     yield (0, sendMailer_1.senMailer)(resetPassword_1.resetPasswordSubject, isUserExist.email, (0, resetPassword_1.resetPasswordHTML)(resetLink));
     return passResetToken;

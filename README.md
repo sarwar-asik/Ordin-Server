@@ -15,7 +15,7 @@
 - Cookie Parser :::  To handle cookies for user sessions.
 - Husky :::  A pre-commit and pre-push hook framework for ensuring code quality.
 - SSL-Commerce :::  For payment gateway integration.
--
+- Node Mailer  ::: For sending email with password reset and actions
 
 ## API Endpoints and Descriptions
 
