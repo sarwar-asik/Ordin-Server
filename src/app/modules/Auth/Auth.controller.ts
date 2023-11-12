@@ -42,7 +42,7 @@ const login = catchAsync(async (req: Request, res: Response) => {
     httpOnly: true,
   };
 
-  res.cookie(tokenName, token, cookieOption);
+  res.cookie("refreshToken", token, cookieOption);
 
   res.json({
     success: true,

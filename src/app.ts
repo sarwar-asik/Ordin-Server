@@ -8,7 +8,7 @@ import router from './app/routes';
 
 const app: Application = express();
 
-app.use(cors());
+app.use(cors({ origin: 'http://localhost:3000',credentials:true }))  //! for cookies
 app.use(cookieParser());
 
 //parser
@@ -22,7 +22,6 @@ app.use(express.urlencoded({ extended: true }));
 //     message:'book-listing-server server is running on 5000'
 //   });
 // });
-
 
 app.use('/api/v1', router);
 
