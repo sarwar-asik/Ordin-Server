@@ -68,7 +68,7 @@ const authLogin = async (payload: {
 
   //   jwt part ///
 
-  const token = jwtHelpers.createToken(
+  const accessToken = jwtHelpers.createToken(
     {
       email,
       role: isUserExist.role,
@@ -77,13 +77,60 @@ const authLogin = async (payload: {
     config.jwt.secret as Secret,
     config.jwt.expires_in as string
   );
+  const refreshToken = jwtHelpers.createToken(
+    {
+      email,
+      role: isUserExist.role,
+      id: isUserExist.id,
+    },
+    config.jwt.refresh_secret as Secret,
+    config.jwt.refresh_expires_in as string
+  );
 
   return {
-    accessToken: token,
+    accessToken,
+    refreshToken,
   };
 };
 
+const refreshToken = async (token: string): Promise<any> => {
+  //verify token
+  // invalid token - synchronous
+  let verifiedToken = null;
+  try {
+    verifiedToken = jwtHelpers.verifyToken(
+      token,
+      config.jwt.refresh_secret as Secret
+    );
+  } catch (err) {
+    throw new ApiError(httpStatus.FORBIDDEN, 'Invalid Refresh Token');
+  }
 
+  const { id } = verifiedToken;
+
+  const isUserExist = await prisma.user.findUnique({
+    where: {
+      id: id,
+    },
+  });
+  if (!isUserExist) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'User does not exist');
+  }
+  //generate new token
+
+  const newAccessToken = jwtHelpers.createToken(
+    {
+      id: isUserExist.id,
+      role: isUserExist.role,
+    },
+    config.jwt.secret as Secret,
+    config.jwt.expires_in as string
+  );
+
+  return {
+    accessToken: newAccessToken,
+  };
+};
 
 const changePassword = async (
   authUser: any,
@@ -149,7 +196,9 @@ const forgotPassword = async (passwordData: any): Promise<any> => {
     email: isUserExist.email,
   });
   const resetLink: string =
-    config.frontend_url + '/resetPassword?' + `id=${isUserExist?.id}&token=${passResetToken}`;
+    config.frontend_url +
+    '/resetPassword?' +
+    `id=${isUserExist?.id}&token=${passResetToken}`;
   // console.log(passResetToken, '');
   await senMailer(
     resetPasswordSubject,
@@ -210,4 +259,5 @@ export const AuthService = {
   changePassword,
   forgotPassword,
   resetPassword,
+  refreshToken,
 };

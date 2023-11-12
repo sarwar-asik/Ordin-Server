@@ -16,4 +16,5 @@ router.post('/login', (0, validateRequest_1.default)(Auth_validation_1.AuthValid
 router.patch('/change-password', (0, auth_1.default)(user_1.ENUM_USER_ROLE.ADMIN, user_1.ENUM_USER_ROLE.SUPER_ADMIN, user_1.ENUM_USER_ROLE.USER), (0, validateRequest_1.default)(Auth_validation_1.AuthValidation.changePassword), Auth_controller_1.AuthController.changePassword);
 router.post('/forgot-password', (0, validateRequest_1.default)(Auth_validation_1.AuthValidation.forgotPassword), Auth_controller_1.AuthController.forgotPassword);
 router.post('/reset-password', (0, validateRequest_1.default)(Auth_validation_1.AuthValidation.resetPassword), Auth_controller_1.AuthController.resetPassword);
+router.post('/refresh-token', (0, validateRequest_1.default)(Auth_validation_1.AuthValidation.refreshTokenZodSchema), Auth_controller_1.AuthController.refreshToken);
 exports.authRoutes = router;

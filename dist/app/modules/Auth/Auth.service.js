@@ -56,13 +56,47 @@ const authLogin = (payload) => __awaiter(void 0, void 0, void 0, function* () {
         throw new ApiError_1.default(http_status_1.default.NOT_FOUND, 'Password is not correct');
     }
     //   jwt part ///
-    const token = jwtHelpers_1.jwtHelpers.createToken({
+    const accessToken = jwtHelpers_1.jwtHelpers.createToken({
         email,
         role: isUserExist.role,
         id: isUserExist.id,
     }, config_1.default.jwt.secret, config_1.default.jwt.expires_in);
+    const refreshToken = jwtHelpers_1.jwtHelpers.createToken({
+        email,
+        role: isUserExist.role,
+        id: isUserExist.id,
+    }, config_1.default.jwt.refresh_secret, config_1.default.jwt.refresh_expires_in);
     return {
-        accessToken: token,
+        accessToken,
+        refreshToken,
+    };
+});
+const refreshToken = (token) => __awaiter(void 0, void 0, void 0, function* () {
+    //verify token
+    // invalid token - synchronous
+    let verifiedToken = null;
+    try {
+        verifiedToken = jwtHelpers_1.jwtHelpers.verifyToken(token, config_1.default.jwt.refresh_secret);
+    }
+    catch (err) {
+        throw new ApiError_1.default(http_status_1.default.FORBIDDEN, 'Invalid Refresh Token');
+    }
+    const { id } = verifiedToken;
+    const isUserExist = yield prisma_1.default.user.findUnique({
+        where: {
+            id: id,
+        },
+    });
+    if (!isUserExist) {
+        throw new ApiError_1.default(http_status_1.default.NOT_FOUND, 'User does not exist');
+    }
+    //generate new token
+    const newAccessToken = jwtHelpers_1.jwtHelpers.createToken({
+        id: isUserExist.id,
+        role: isUserExist.role,
+    }, config_1.default.jwt.secret, config_1.default.jwt.expires_in);
+    return {
+        accessToken: newAccessToken,
     };
 });
 const changePassword = (authUser, passwordData) => __awaiter(void 0, void 0, void 0, function* () {
@@ -108,7 +142,9 @@ const forgotPassword = (passwordData) => __awaiter(void 0, void 0, void 0, funct
         id: isUserExist === null || isUserExist === void 0 ? void 0 : isUserExist.id,
         email: isUserExist.email,
     });
-    const resetLink = config_1.default.frontend_url + '/resetPassword?' + `id=${isUserExist === null || isUserExist === void 0 ? void 0 : isUserExist.id}&token=${passResetToken}`;
+    const resetLink = config_1.default.frontend_url +
+        '/resetPassword?' +
+        `id=${isUserExist === null || isUserExist === void 0 ? void 0 : isUserExist.id}&token=${passResetToken}`;
     // console.log(passResetToken, '');
     yield (0, sendMailer_1.senMailer)(resetPassword_1.resetPasswordSubject, isUserExist.email, (0, resetPassword_1.resetPasswordHTML)(resetLink));
     return passResetToken;
@@ -145,4 +181,5 @@ exports.AuthService = {
     changePassword,
     forgotPassword,
     resetPassword,
+    refreshToken,
 };

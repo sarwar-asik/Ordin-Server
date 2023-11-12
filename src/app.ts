@@ -8,7 +8,9 @@ import router from './app/routes';
 
 const app: Application = express();
 
-app.use(cors({ origin: 'http://localhost:3000',credentials:true }))  //! for cookies
+app.use(
+  cors({ origin: 'https://ordain-interior.vercel.app', credentials: true })
+); //! for cookies
 app.use(cookieParser());
 
 //parser

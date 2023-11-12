@@ -52,21 +52,22 @@ const SignUp = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0,
 const login = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const loginData = __rest(req.body, []);
     // console.log(loginData,"asdfsd");
-    const token = yield Auth_service_1.AuthService.authLogin(loginData);
+    const result = yield Auth_service_1.AuthService.authLogin(loginData);
+    const { refreshToken } = result, others = __rest(result, ["refreshToken"]);
     const cookieOption = {
         secure: config_1.default.env === 'production',
         httpOnly: true,
     };
-    res.cookie(jwt_token_1.tokenName, token, cookieOption);
+    res.cookie('refreshToken', refreshToken, cookieOption);
     res.json({
         success: true,
         statusCode: 200,
         message: 'User sign In successfully!',
-        data: token,
+        data: others,
     });
 }));
 const changePassword = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const authUser = (req.user);
+    const authUser = req.user;
     const passData = req.body;
     const result = yield Auth_service_1.AuthService.changePassword(authUser, passData);
     (0, sendResponse_1.default)(res, {
@@ -87,7 +88,7 @@ const forgotPassword = (0, catchAsync_1.default)((req, res) => __awaiter(void 0,
 }));
 const resetPassword = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const passData = req.body;
-    const token = req.headers.authorization || "token";
+    const token = req.headers.authorization || 'token';
     yield Auth_service_1.AuthService.resetPassword(passData, token);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
@@ -95,4 +96,27 @@ const resetPassword = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, 
         success: true,
     });
 }));
-exports.AuthController = { SignUp, login, changePassword, forgotPassword, resetPassword };
+const refreshToken = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { refreshToken } = req.cookies;
+    const result = yield Auth_service_1.AuthService.refreshToken(refreshToken);
+    // set refresh token into cookie
+    // const cookieOptions = {
+    //   secure: config.env === 'production',
+    //   httpOnly: true,
+    // };
+    // res.cookie('refreshToken', refreshToken, cookieOptions);
+    (0, sendResponse_1.default)(res, {
+        statusCode: 200,
+        success: true,
+        message: 'User logged in successfully !',
+        data: result,
+    });
+}));
+exports.AuthController = {
+    SignUp,
+    login,
+    changePassword,
+    forgotPassword,
+    resetPassword,
+    refreshToken,
+};
