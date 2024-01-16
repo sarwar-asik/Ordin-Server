@@ -8,6 +8,8 @@ const express_1 = __importDefault(require("express"));
 const http_status_1 = __importDefault(require("http-status"));
 const globalErrorHandler_1 = __importDefault(require("./app/middlewares/globalErrorHandler"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
+// import http from 'http';
+// import { Socket, Server as SocketIoServer } from 'socket.io';
 const routes_1 = __importDefault(require("./app/routes"));
 const app = (0, express_1.default)();
 // app.use(cors())
@@ -30,6 +32,28 @@ app.use(express_1.default.urlencoded({ extended: true }));
 //   });
 // });
 app.use('/api/v1', routes_1.default);
+// const server = http.createServer(app)
+// const io: SocketIoServer = new SocketIoServer(server, {
+//   cors: {
+//     origin: '*',
+//     methods: ['GET', 'POST'],
+//   },
+//   // transports: ['websocket', 'polling'],
+// })
+// io.on('connection', (socket: Socket) => {
+//   console.log('socket user connected')
+//   const userString = socket.handshake.query.user as any
+//   const user = JSON.parse(userString)
+//   // Now, you can use the 'user' object as needed
+//   console.log('User:', user)
+//   socket.on('send-message', data => {
+//     console.log(data)
+//     // chatService.chat_message(data)
+//   })
+//   socket.on('disconnect', () => {
+//     console.log('user disconnected')
+//   })
+// })
 //global error handler
 app.use(globalErrorHandler_1.default);
 //handle not found

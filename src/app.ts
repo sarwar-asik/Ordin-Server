@@ -4,6 +4,8 @@ import httpStatus from 'http-status';
 import globalErrorHandler from './app/middlewares/globalErrorHandler';
 
 import cookieParser from 'cookie-parser';
+// import http from 'http';
+// import { Socket, Server as SocketIoServer } from 'socket.io';
 import router from './app/routes';
 
 const app: Application = express();
@@ -37,6 +39,36 @@ app.use(express.urlencoded({ extended: true }));
 // });
 
 app.use('/api/v1', router);
+
+
+// const server = http.createServer(app)
+// const io: SocketIoServer = new SocketIoServer(server, {
+//   cors: {
+//     origin: '*',
+//     methods: ['GET', 'POST'],
+//   },
+//   // transports: ['websocket', 'polling'],
+// })
+
+// io.on('connection', (socket: Socket) => {
+//   console.log('socket user connected')
+
+//   const userString = socket.handshake.query.user as any
+//   const user = JSON.parse(userString)
+
+//   // Now, you can use the 'user' object as needed
+//   console.log('User:', user)
+
+//   socket.on('send-message', data => {
+//     console.log(data)
+//     // chatService.chat_message(data)
+//   })
+
+//   socket.on('disconnect', () => {
+//     console.log('user disconnected')
+//   })
+// })
+
 
 //global error handler
 app.use(globalErrorHandler);

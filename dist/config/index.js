@@ -9,11 +9,8 @@ const path_1 = __importDefault(require("path"));
 dotenv_1.default.config({ path: path_1.default.join(process.cwd(), '.env') });
 exports.default = {
     env: process.env.NODE_ENV,
-    port: process.env.PORT,
+    port: process.env.PORT || 4000,
     database_url: process.env.DATABASE_URL,
-    default_student_pass: process.env.DEFAULT_STUDENT_PASS,
-    default_faculty_pass: process.env.DEFAULT_FACULTY_PASS,
-    default_admin_pass: process.env.DEFAULT_ADMIN_PASS,
     bycrypt_salt_rounds: process.env.BCRYPT_SALT_ROUNDS,
     jwt: {
         secret: process.env.JWT_SECRET,

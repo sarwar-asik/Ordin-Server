@@ -20,6 +20,8 @@ const signUp = async (
 
   // console.log("🚀 ~ file: Auth.service.ts:14 ~ userData:", userData)
 
+  userData.role="admin"
+
   const result = await prisma.user.create({
     data: userData,
   });

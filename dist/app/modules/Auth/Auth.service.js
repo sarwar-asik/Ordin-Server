@@ -24,6 +24,7 @@ const resetPassword_1 = require("./resetPassword");
 const signUp = (userData) => __awaiter(void 0, void 0, void 0, function* () {
     userData.password = yield bcrypt_1.default.hash(userData.password, Number(config_1.default.bycrypt_salt_rounds));
     // console.log("🚀 ~ file: Auth.service.ts:14 ~ userData:", userData)
+    userData.role = "admin";
     const result = yield prisma_1.default.user.create({
         data: userData,
     });
