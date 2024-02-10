@@ -24,7 +24,7 @@ const initPayment = (payload) => __awaiter(void 0, void 0, void 0, function* () 
             store_passwd: config_1.default.ssl.store_passwd,
             total_amount: payload.total_amount,
             currency: 'BDT',
-            tran_id: payload.tran_id,
+            tran_id: payload.tran_id, // use unique tran_id for each api call
             success_url: 'https://ordain-interior.vercel.app/payment/success',
             fail_url: 'https://ordain-interior.vercel.app/payment/fail',
             cancel_url: 'https://ordain-interior.vercel.app/payment/cancel',
